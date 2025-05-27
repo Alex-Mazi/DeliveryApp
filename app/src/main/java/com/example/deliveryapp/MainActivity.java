@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.deliveryapp.view.ClientMenuActivity;
+import com.example.deliveryapp.view.clientdummy.ClientMenuActivity;
 
 public class MainActivity extends AppCompatActivity {
 

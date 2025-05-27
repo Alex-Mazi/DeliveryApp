@@ -1,11 +1,10 @@
-package com.example.deliveryapp.view.FilterActivities;
+package com.example.deliveryapp.view.clientdummy.FilterActivities;
 
 /**
  * @author      Alexandra-Maria Mazi || p3220111
  * @author      Christina Perifana   || p3220160
  **/
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;

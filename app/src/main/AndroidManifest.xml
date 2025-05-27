@@ -10,42 +10,42 @@
         android:theme="@style/Theme.DeliveryApp">
 
         <activity
-            android:name=".view.FilterActivities.RatingsFilterActivity"
+            android:name=".view.clientdummy.FilterActivities.RatingsFilterActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
         <activity
-            android:name=".view.FilterActivities.PriceFilterActivity"
+            android:name=".view.clientdummy.FilterActivities.PriceFilterActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
         <activity
-            android:name=".view.FilterActivities.CuisineFilterActivity"
+            android:name=".view.clientdummy.FilterActivities.CuisineFilterActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
         <activity
-            android:name=".view.FilterActivities.FilterMenuActivity"
+            android:name=".view.clientdummy.FilterActivities.FilterMenuActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
         <activity
-            android:name=".view.RateActivities.RateRestaurantsActivity"
+            android:name=".view.clientdummy.RateActivities.RateRestaurantsActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
         <activity
-            android:name=".view.FindActivities.FindRestaurantsActivity"
+            android:name=".view.clientdummy.FindActivities.FindRestaurantsActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
         <activity
-            android:name=".view.FilterActivities.FilterRestaurantsActivity"
+            android:name=".view.clientdummy.FilterActivities.FilterRestaurantsActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
         <activity
-            android:name=".view.ClientMenuActivity"
+            android:name=".view.clientdummy.ClientMenuActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
