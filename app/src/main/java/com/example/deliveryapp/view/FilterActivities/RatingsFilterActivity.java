@@ -17,8 +17,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.deliveryapp.R;
+import com.example.deliveryapp.view.ClientThread;
+
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 
 public class RatingsFilterActivity extends AppCompatActivity {
+
+    public String getLocalIpAddress() {
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +78,10 @@ public class RatingsFilterActivity extends AppCompatActivity {
                 longitudeInput.setError("Necessary input");
             } else if (selectedCategory.isEmpty()) {
                 optionButton.setError("Please select a rating");
+            } else {
+                Thread clientThread = new Thread(new ClientThread(getLocalIpAddress(), 5000, longitude,latitude,selectedCategory,"showcase_stores", "Client"));
+                clientThread.start();
+
             }
 
         });
