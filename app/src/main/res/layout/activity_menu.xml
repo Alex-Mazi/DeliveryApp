@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background3"
+    android:fitsSystemWindows="true"
+    tools:context=".view.ClientMenuActivity">
+
+    <androidx.constraintlayout.widget.Barrier
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left" />
+
+    <!-- "Main Menu" Text -->
+    <TextView
+        android:id="@+id/main_menu"
+        android:layout_width="205dp"
+        android:layout_height="45dp"
+        android:fontFamily="@font/modak"
+        android:text="@string/main_menu"
+        android:textAlignment="textStart"
+        android:textColor="#ee4216"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- "Start a new delivery experience" Text -->
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="243dp"
+        android:layout_height="24dp"
+        android:fontFamily="@font/gentium_plus"
+        android:text="@string/start_a_new_delivery_experience"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_menu" />
+
+    <!-- "Find Restaurants" Button -->
+    <FrameLayout
+
+        android:id="@+id/Finder"
+        android:layout_width="183dp"
+        android:layout_height="175dp"
+        android:layout_marginTop="185dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/rectangle_background"
+        android:clickable="true"
+        android:elevation="40dp"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <LinearLayout
+            android:layout_width="181dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
+
+            <!-- "Find Restaurants" Button Icon -->
+            <ImageView
+                android:id="@+id/finderIcon"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/find_nearby_restaurants"
+                android:src="@drawable/find_icon" />
+
+            <!-- "Find nearby restaurants" Button Text -->
+            <TextView
+                android:id="@+id/finderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fredoka_medium"
+                android:gravity="center"
+                android:text="@string/find_nearby_restaurants"
+                android:textColor="#42352a"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- "Filter Restaurants" Button -->
+    <FrameLayout
+
+        android:id="@+id/Filter"
+        android:layout_width="183dp"
+        android:layout_height="175dp"
+        android:layout_marginTop="185dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rectangle_background"
+        android:clickable="true"
+        android:elevation="40dp"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <LinearLayout
+            android:layout_width="181dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
+
+            <!-- "Filter Restaurants" Button Icon -->
+            <ImageView
+                android:id="@+id/filterIcon"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/filter_restaurants"
+                android:src="@drawable/filter_icon" />
+
+            <!-- "Filter restaurants" Button Text -->
+            <TextView
+                android:id="@+id/filterText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fredoka_medium"
+                android:gravity="center"
+                android:text="@string/filter_restaurants"
+                android:textColor="#42352a"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- "Rate Restaurants" Button -->
+    <FrameLayout
+
+        android:id="@+id/Rater"
+        android:layout_width="183dp"
+        android:layout_height="175dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/rectangle_background"
+        android:clickable="true"
+        android:elevation="40dp"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintTop_toBottomOf="@+id/Finder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="181dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
+
+            <!-- "Rate Restaurants" Button Icon -->
+            <ImageView
+                android:id="@+id/raterIcon"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/rate_restaurants"
+                android:src="@drawable/rate_icon" />
+
+            <!-- "Rate restaurants" Button Text -->
+            <TextView
+                android:id="@+id/raterText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fredoka_medium"
+                android:gravity="center"
+                android:text="@string/rate_restaurants"
+                android:textColor="#42352a"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

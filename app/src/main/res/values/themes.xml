@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.DeliveryApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- Primary brand color -->
+        <item name="colorPrimary">#B0B0B0</item>
+        <item name="colorPrimaryVariant">#B0B0B0</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <!-- Secondary color -->
+        <item name="colorSecondary">#B0B0B0</item>
+        <item name="colorSecondaryVariant">#B0B0B0</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+
+        <!-- For TextInputLayout & focused strokes -->
+        <item name="colorControlActivated">#B0B0B0</item>
+        <item name="colorControlHighlight">#B0B0B0</item>
+        <item name="colorAccent">#B0B0B0</item>
+
+    </style>
+</resources>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background3"
+    android:fitsSystemWindows="true"
+    tools:context=".view.FilterActivities.FilterMenuActivity">
+
+    <androidx.constraintlayout.widget.Barrier
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left" />
+
+    <!-- "Filter By" Text -->
+    <TextView
+        android:id="@+id/filter_by"
+        android:layout_width="205dp"
+        android:layout_height="45dp"
+        android:fontFamily="@font/modak"
+        android:text="@string/filter_by"
+        android:textAlignment="textStart"
+        android:textColor="#ee4216"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- "Choose filters to narrow down your search" Text -->
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="243dp"
+        android:layout_height="24dp"
+        android:fontFamily="@font/gentium_plus"
+        android:text="@string/choose_filters_to_narrow_down_your_search"
+        android:textAlignment="textStart"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filter_by" />
+
+    <!-- "Cuisine" Button -->
+    <FrameLayout
+
+        android:id="@+id/Cuisine"
+        android:layout_width="183dp"
+        android:layout_height="175dp"
+        android:layout_marginTop="185dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/rectangle_background"
+        android:clickable="true"
+        android:elevation="40dp"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <LinearLayout
+            android:layout_width="181dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
+
+            <!-- "Cuisine" Button Icon -->
+            <ImageView
+                android:id="@+id/cuisineIcon"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/cuisine"
+                android:src="@drawable/cuisine_icon" />
+
+            <!-- "Cuisine" Button Text -->
+            <TextView
+                android:id="@+id/cuisineText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fredoka_medium"
+                android:gravity="center"
+                android:text="@string/cuisine"
+                android:textColor="#42352a"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- "Price Range" Button -->
+    <FrameLayout
+
+        android:id="@+id/Price"
+        android:layout_width="183dp"
+        android:layout_height="175dp"
+        android:layout_marginTop="185dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rectangle_background"
+        android:clickable="true"
+        android:elevation="40dp"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <LinearLayout
+            android:layout_width="181dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
+
+            <!-- "Price Range" Button Icon -->
+            <ImageView
+                android:id="@+id/priceIcon"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/price_range"
+                android:src="@drawable/price_icon" />
+
+            <!-- "Price Range" Button Text -->
+            <TextView
+                android:id="@+id/priceText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fredoka_medium"
+                android:gravity="center"
+                android:text="@string/price_range"
+                android:textColor="#42352a"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- "Ratings" Button -->
+    <FrameLayout
+
+        android:id="@+id/Ratings"
+        android:layout_width="183dp"
+        android:layout_height="175dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/rectangle_background"
+        android:clickable="true"
+        android:elevation="40dp"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintTop_toBottomOf="@+id/Cuisine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="181dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
+
+            <!-- "Ratings" Button Icon -->
+            <ImageView
+                android:id="@+id/ratingsIcon"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/ratings"
+                android:src="@drawable/ratings_icon" />
+
+            <!-- "Ratings" Button Text -->
+            <TextView
+                android:id="@+id/ratingsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fredoka_medium"
+                android:gravity="center"
+                android:text="@string/ratings"
+                android:textColor="#42352a"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

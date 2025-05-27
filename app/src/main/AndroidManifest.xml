@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+
+        android:icon="@drawable/logo"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DeliveryApp">
+
+        <activity
+            android:name=".view.FilterActivities.RatingsFilterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DeliveryApp" />
+
+        <activity
+            android:name=".view.FilterActivities.PriceFilterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DeliveryApp" />
+
+        <activity
+            android:name=".view.FilterActivities.CuisineFilterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DeliveryApp" />
+
+        <activity
+            android:name=".view.FilterActivities.FilterMenuActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DeliveryApp" />
+
+        <activity
+            android:name=".view.RateActivities.RateRestaurantsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DeliveryApp" />
+
+        <activity
+            android:name=".view.FindActivities.FindRestaurantsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DeliveryApp" />
+
+        <activity
+            android:name=".view.FilterActivities.FilterRestaurantsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DeliveryApp" />
+
+        <activity
+            android:name=".view.ClientMenuActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DeliveryApp" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.DeliveryApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+    </application>
+
+</manifest>

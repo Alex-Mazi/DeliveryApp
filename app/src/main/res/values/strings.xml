@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">DeliveryApp</string>
+    <string name="deliveryapp">DeliveryApp</string>
+    <string name="continue1">CONTINUE</string>
+    <string name="main_menu">MAIN MENU</string>
+    <string name="start_a_new_delivery_experience">Start a new delivery experience</string>
+    <string name="logo_transparent">Logo_Transparent</string>
+    <string name="find_nearby_restaurants">Find nearby restaurants</string>
+    <string name="filter_restaurants">Filter restaurants</string>
+    <string name="rate_restaurants">Rate restaurants</string>
+    <string name="filter_by">FILTER BY</string>
+    <string name="cuisine">CUISINE</string>
+    <string name="price_range">PRICE RANGE</string>
+    <string name="ratings">RATINGS</string>
+    <string name="choose_filters_to_narrow_down_your_search">Choose filters to narrow down your search</string>
+    <string name="set_your_location_to_see_available_restaurants_matching_your_filters">Set your location to see available restaurants matching your filters</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="rating_options">Rating Options</string>
+    <string name="price_range_options">Price Range Options</string>
+    <string name="select">SELECT</string>
+    <string name="back">BACK</string>
+    <string name="cuisine_options">Cuisine Options</string>
+</resources>

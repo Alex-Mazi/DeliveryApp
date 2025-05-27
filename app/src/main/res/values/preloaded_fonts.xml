@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/acme</item>
+        <item>@font/adlam_display</item>
+        <item>@font/bagel_fat_one</item>
+        <item>@font/fredoka_medium</item>
+        <item>@font/gentium_plus</item>
+        <item>@font/gfs_neohellenic</item>
+        <item>@font/modak</item>
+    </array>
+</resources>
