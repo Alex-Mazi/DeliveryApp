@@ -59,7 +59,7 @@ public class RatingsFilterActivity extends AppCompatActivity {
 
         });
 
-        backButton.setOnClickListener(v -> startActivity(new Intent(this, FilterMenuActivity.class)));
+        backButton.setOnClickListener(v -> finish());
 
     }
 
