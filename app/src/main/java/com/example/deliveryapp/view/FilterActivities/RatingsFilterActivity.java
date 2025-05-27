@@ -79,7 +79,7 @@ public class RatingsFilterActivity extends AppCompatActivity {
             } else if (selectedCategory.isEmpty()) {
                 optionButton.setError("Please select a rating");
             } else {
-                Thread clientThread = new Thread(new ClientThread(getLocalIpAddress(), 5000, longitude,latitude,selectedCategory,"showcase_stores", "Client"));
+                Thread clientThread = new Thread(new ClientThread("192.168.56.1", 5000, longitude,latitude,selectedCategory,"showcase_stores", "Client"));
                 clientThread.start();
 
             }
