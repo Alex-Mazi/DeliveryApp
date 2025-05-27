@@ -1,4 +1,4 @@
-package com.example.deliveryapp.view.clientdummy.FilterActivities;
+package com.example.deliveryapp.view.FilterActivities;
 
 /**
  * @author      Alexandra-Maria Mazi || p3220111
@@ -17,14 +17,14 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.deliveryapp.R;
 
-public class PriceFilterActivity extends AppCompatActivity {
+public class CuisineFilterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_pricefilter);
+        setContentView(R.layout.activity_cuisinefilter);
 
         EditText longitudeInput = findViewById(R.id.longitudeInput);
         EditText latitudeInput = findViewById(R.id.latitudeInput);
@@ -33,7 +33,7 @@ public class PriceFilterActivity extends AppCompatActivity {
         AppCompatButton selectButton = findViewById(R.id.select);
         AppCompatButton backButton = findViewById(R.id.back);
 
-        String[] categories = {"$", "$$", "$$$"};
+        String[] categories = { };
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         optionButton.setAdapter(adapter);
 
@@ -51,7 +51,7 @@ public class PriceFilterActivity extends AppCompatActivity {
             } else if (longitude.isEmpty()){
                 longitudeInput.setError("Necessary input");
             } else if (selectedCategory.isEmpty()) {
-                optionButton.setError("Please select a price range");
+                optionButton.setError("Please select a rating");
             }
 
         });

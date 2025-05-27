@@ -1,4 +1,4 @@
-package com.example.deliveryapp.view.clientdummy.FilterActivities;
+package com.example.deliveryapp.view.FilterActivities;
 
 /**
  * @author      Alexandra-Maria Mazi || p3220111
@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,14 +17,14 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.deliveryapp.R;
 
-public class RatingsFilterActivity extends AppCompatActivity {
+public class PriceFilterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_ratingsfilter);
+        setContentView(R.layout.activity_pricefilter);
 
         EditText longitudeInput = findViewById(R.id.longitudeInput);
         EditText latitudeInput = findViewById(R.id.latitudeInput);
@@ -33,9 +32,8 @@ public class RatingsFilterActivity extends AppCompatActivity {
         ImageButton submitButton = findViewById(R.id.submitButton);
         AppCompatButton selectButton = findViewById(R.id.select);
         AppCompatButton backButton = findViewById(R.id.back);
-        ListView listView = findViewById(R.id.list);
 
-        String[] categories = {"★☆☆☆☆", "★★☆☆☆", "★★★☆☆", "★★★★☆", "★★★★★"};
+        String[] categories = {"$", "$$", "$$$"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         optionButton.setAdapter(adapter);
 
@@ -53,7 +51,7 @@ public class RatingsFilterActivity extends AppCompatActivity {
             } else if (longitude.isEmpty()){
                 longitudeInput.setError("Necessary input");
             } else if (selectedCategory.isEmpty()) {
-                optionButton.setError("Please select a rating");
+                optionButton.setError("Please select a price range");
             }
 
         });

@@ -1,4 +1,4 @@
-package com.example.deliveryapp.view.clientdummy.FilterActivities;
+package com.example.deliveryapp.view.FindActivities;
 
 /**
  * @author      Alexandra-Maria Mazi || p3220111
@@ -7,5 +7,7 @@ package com.example.deliveryapp.view.clientdummy.FilterActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class FilterRestaurantsActivity extends AppCompatActivity {
+public class FindRestaurantsActivity extends AppCompatActivity {
+
+
 }

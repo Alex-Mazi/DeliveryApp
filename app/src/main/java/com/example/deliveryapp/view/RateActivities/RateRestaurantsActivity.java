@@ -1,4 +1,4 @@
-package com.example.deliveryapp.view.clientdummy.RateActivities;
+package com.example.deliveryapp.view.RateActivities;
 
 /**
  * @author      Alexandra-Maria Mazi || p3220111

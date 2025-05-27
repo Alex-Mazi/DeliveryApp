@@ -1,4 +1,4 @@
-package com.example.deliveryapp.view.clientdummy.FilterActivities;
+package com.example.deliveryapp.view.FilterActivities;
 
 /**
  * @author      Alexandra-Maria Mazi || p3220111

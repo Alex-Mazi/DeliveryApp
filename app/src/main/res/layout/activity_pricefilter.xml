@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background3"
     android:fitsSystemWindows="true"
-    tools:context=".view.clientdummy.FilterActivities.PriceFilterActivity">
+    tools:context=".view.FilterActivities.PriceFilterActivity">
 
     <androidx.constraintlayout.widget.Barrier
         android:layout_width="wrap_content"

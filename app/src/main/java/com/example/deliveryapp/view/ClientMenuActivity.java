@@ -1,4 +1,4 @@
-package com.example.deliveryapp.view.clientdummy;
+package com.example.deliveryapp.view;
 
 /**
  * @author      Alexandra-Maria Mazi || p3220111
@@ -13,9 +13,9 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.deliveryapp.R;
-import com.example.deliveryapp.view.clientdummy.FilterActivities.FilterMenuActivity;
-import com.example.deliveryapp.view.clientdummy.FindActivities.FindRestaurantsActivity;
-import com.example.deliveryapp.view.clientdummy.RateActivities.RateRestaurantsActivity;
+import com.example.deliveryapp.view.FilterActivities.FilterMenuActivity;
+import com.example.deliveryapp.view.FindActivities.FindRestaurantsActivity;
+import com.example.deliveryapp.view.RateActivities.RateRestaurantsActivity;
 
 public class ClientMenuActivity extends AppCompatActivity {
 

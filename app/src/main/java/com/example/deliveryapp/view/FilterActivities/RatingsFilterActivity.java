@@ -1,4 +1,4 @@
-package com.example.deliveryapp.view.clientdummy.FilterActivities;
+package com.example.deliveryapp.view.FilterActivities;
 
 /**
  * @author      Alexandra-Maria Mazi || p3220111
@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,14 +18,14 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.deliveryapp.R;
 
-public class CuisineFilterActivity extends AppCompatActivity {
+public class RatingsFilterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_cuisinefilter);
+        setContentView(R.layout.activity_ratingsfilter);
 
         EditText longitudeInput = findViewById(R.id.longitudeInput);
         EditText latitudeInput = findViewById(R.id.latitudeInput);
@@ -32,8 +33,9 @@ public class CuisineFilterActivity extends AppCompatActivity {
         ImageButton submitButton = findViewById(R.id.submitButton);
         AppCompatButton selectButton = findViewById(R.id.select);
         AppCompatButton backButton = findViewById(R.id.back);
+        ListView listView = findViewById(R.id.list);
 
-        String[] categories = { };
+        String[] categories = {"★☆☆☆☆", "★★☆☆☆", "★★★☆☆", "★★★★☆", "★★★★★"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         optionButton.setAdapter(adapter);
 
