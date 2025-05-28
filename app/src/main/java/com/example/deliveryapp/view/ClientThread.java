@@ -108,7 +108,6 @@ public class ClientThread implements Runnable{
 
                     String store = null, product = null;
 
-
                     try {
 
                         Socket clientSocket = new Socket(host, port);

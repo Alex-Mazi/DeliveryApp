@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,7 @@ public class CuisineFilterActivity extends AppCompatActivity {
         ImageButton submitButton = findViewById(R.id.submitButton);
         AppCompatButton selectButton = findViewById(R.id.select);
         AppCompatButton backButton = findViewById(R.id.back);
+        ListView listView = findViewById(R.id.list);
 
         String[] categories = { };
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
@@ -51,7 +53,7 @@ public class CuisineFilterActivity extends AppCompatActivity {
             } else if (longitude.isEmpty()){
                 longitudeInput.setError("Necessary input");
             } else if (selectedCategory.isEmpty()) {
-                optionButton.setError("Please select a rating");
+                optionButton.setError("Please select a cuisine");
             }
 
         });

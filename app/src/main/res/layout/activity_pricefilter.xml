@@ -45,13 +45,11 @@
         app:layout_constraintTop_toBottomOf="@id/price_range" />
 
     <!-- "Longitude" Button -->
-
-    <!-- "Latitude" Button -->
     <EditText
         android:id="@+id/longitudeInput"
         android:layout_width="130dp"
         android:layout_height="27dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="82dp"
         android:background="@drawable/edit_text_border"
         android:ems="10"
         android:fontFamily="sans-serif"
@@ -67,6 +65,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+    <!-- "Latitude" Button -->
     <EditText
         android:id="@+id/latitudeInput"
         android:layout_width="130dp"
@@ -93,7 +92,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="177dp"
         android:layout_height="37dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="77dp"
         android:hint="@string/price_range_options"
         app:boxStrokeColor="@color/box_stroke_color"
         app:endIconMode="dropdown_menu"
@@ -121,6 +120,7 @@
         android:layout_width="88dp"
         android:layout_height="80dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginTop="-1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -152,6 +152,7 @@
         android:id="@+id/select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:alpha="1"
         android:background="@drawable/rounded_button"
         android:backgroundTintMode="add"
@@ -165,15 +166,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
 
+    <!-- Stores ListView -->
     <ListView
-        android:layout_width="390dp"
-        android:layout_height="362dp"
+        android:id="@+id/list"
+        android:layout_width="397dp"
+        android:layout_height="462dp"
+        android:background="@drawable/listview_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/categoryInputLayout"
-        app:layout_constraintVertical_bias="0.298" />
-
+        app:layout_constraintVertical_bias="0.324" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

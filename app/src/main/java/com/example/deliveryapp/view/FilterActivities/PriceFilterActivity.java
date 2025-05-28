@@ -10,12 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.deliveryapp.R;
+import com.example.deliveryapp.view.ClientThread;
 
 public class PriceFilterActivity extends AppCompatActivity {
 
@@ -32,6 +34,7 @@ public class PriceFilterActivity extends AppCompatActivity {
         ImageButton submitButton = findViewById(R.id.submitButton);
         AppCompatButton selectButton = findViewById(R.id.select);
         AppCompatButton backButton = findViewById(R.id.back);
+        ListView listView = findViewById(R.id.list);
 
         String[] categories = {"$", "$$", "$$$"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
@@ -52,6 +55,9 @@ public class PriceFilterActivity extends AppCompatActivity {
                 longitudeInput.setError("Necessary input");
             } else if (selectedCategory.isEmpty()) {
                 optionButton.setError("Please select a price range");
+            } else {
+                Thread clientThread = new Thread(new ClientThread("192.168.1.84", 5000, longitude,latitude,selectedCategory,"search_price_range", "Client"));
+                clientThread.start();
             }
 
         });

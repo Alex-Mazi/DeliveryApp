@@ -56,7 +56,7 @@ public class RatingsFilterActivity extends AppCompatActivity {
             } else if (selectedCategory.isEmpty()) {
                 optionButton.setError("Please select a rating");
             } else {
-                Thread clientThread = new Thread(new ClientThread("192.168.1.84", 5000, longitude,latitude,selectedCategory,"showcase_stores", "Client"));
+                Thread clientThread = new Thread(new ClientThread("192.168.1.84", 5000, longitude,latitude,selectedCategory,"search_ratings", "Client"));
                 clientThread.start();
             }
 
