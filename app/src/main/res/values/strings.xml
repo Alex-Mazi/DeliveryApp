@@ -23,4 +23,6 @@
     <string name="cuisine_options">Cuisine Options</string>
     <string name="restaurants">RESTAURANTS</string>
     <string name="set_your_location_to_see_available_restaurants_near_you">Set your location to see available restaurants near you</string>
+    <string name="rating">RATING</string>
+    <string name="set_your_location_to_rate_restaurants_near_you">Set your location to rate restaurants near you</string>
 </resources>
