@@ -6,20 +6,31 @@ package com.example.deliveryapp.view.RateActivities;
  **/
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.deliveryapp.R;
+import com.example.deliveryapp.util.Store;
 import com.example.deliveryapp.view.ClientThread;
 
+import java.util.List;
+
 public class RateRestaurantsActivity extends AppCompatActivity {
+
+    Handler handler;
+
+    List<Store> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +46,14 @@ public class RateRestaurantsActivity extends AppCompatActivity {
         AppCompatButton selectButton = findViewById(R.id.select);
         AppCompatButton backButton = findViewById(R.id.back);
         ListView listView = findViewById(R.id.list);
+
+        handler = new Handler(Looper.getMainLooper(), message -> {
+            if (message.what == 1){
+                Toast.makeText(RateRestaurantsActivity.this, "Connection OK! "+items.size(), Toast.LENGTH_SHORT).show();
+                ((BaseAdapter)listView.getAdapter()).notifyDataSetChanged();
+            }
+            return false;
+        });
 
         String[] categories = {"★☆☆☆☆", "★★☆☆☆", "★★★☆☆", "★★★★☆", "★★★★★"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
@@ -56,7 +75,7 @@ public class RateRestaurantsActivity extends AppCompatActivity {
             } else if (selectedCategory.isEmpty()) {
                 optionButton.setError("Please select a rating");
             } else {
-                Thread clientThread = new Thread(new ClientThread("192.168.1.84", 5000, longitude,latitude,selectedCategory,"rate_store", "Client"));
+                Thread clientThread = new Thread(new ClientThread(handler,"192.168.1.84", 5000, longitude,latitude,selectedCategory,"rate_store"));
                 clientThread.start();
             }
 

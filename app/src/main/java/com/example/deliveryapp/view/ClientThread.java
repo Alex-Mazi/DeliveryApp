@@ -1,183 +1,242 @@
 package com.example.deliveryapp.view;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.UUID;
-import com.example.deliveryapp.util.*;
-
 /**
  * @author      Alexandra-Maria Mazi || p3220111
  * @author      Christina Perifana   || p3220160
  **/
 
-public class ClientThread implements Runnable{
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.List;
+import java.util.UUID;
+import com.example.deliveryapp.util.*;
+
+public class ClientThread implements Runnable {
+
+    private static final String TAG = "ClientThread"; // Tag for logging
+
+    private Handler handler;
     private String host;
     private int port;
-    private String role;
     private String action;
     private String longitude;
     private String latitude;
-    private String preference;
-    private final Object lock = new Object();
+    private String preference; // Used for price range or ratings
 
-    public ClientThread(String host, int port, String longitude,String latitude,String preference, String action, String role) {
+    public static final int MESSAGE_SUCCESS = 1;
+    public static final int MESSAGE_ERROR = 0;
+    public static final int MESSAGE_NO_RESULTS = 2; // For empty list feedback
+    public static final int MESSAGE_GENERIC_RESPONSE = 3; // For actions that don't return List<Store>
+
+    public ClientThread(Handler handler, String host, int port, String longitude, String latitude, String preference, String action) {
+        this.handler = handler;
         this.host = host;
         this.port = port;
         this.preference = preference;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.role = role;
         this.action = action;
-
     }
 
+    @Override
     public void run() {
+
+        String jobID = UUID.randomUUID().toString();
+        Socket clientSocket = null;
+        ObjectOutputStream outObj = null;
+        ObjectInputStream inObj = null;
 
         try {
 
-            Socket socket = new Socket(host, port);
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream inObj;
-            String jobID = UUID.randomUUID().toString();
+            clientSocket = new Socket(host, port);
+            outObj = new ObjectOutputStream(clientSocket.getOutputStream());
+            inObj = new ObjectInputStream(clientSocket.getInputStream());
 
-            try {
+            ActionWrapper requestWrapper;
+            Object receivedResponse;
 
-                if (this.action.equalsIgnoreCase("showcase_stores")) {
+            switch (this.action.toLowerCase()) {
 
-                    try {
+                case "showcase_stores":
 
-                        Socket clientSocket = new Socket(host, port);
-                        ObjectOutputStream outObj = new ObjectOutputStream(clientSocket.getOutputStream());
-                        outObj.writeObject(new ActionWrapper(longitude + "_" + latitude, action, jobID));
-                        outObj.flush();
+                    requestWrapper = new ActionWrapper(longitude + "_" + latitude, action, jobID);
+                    outObj.writeObject(requestWrapper);
+                    outObj.flush();
 
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    receivedResponse = inObj.readObject();
+                    handleShowcaseStoresResponse(receivedResponse);
 
-                } else if (this.action.equalsIgnoreCase("search_price_range")) {
+                    break;
 
-                    try {
+                case "search_price_range":
 
-                        Socket clientSocket = new Socket(host, port);
-                        ObjectOutputStream outObj = new ObjectOutputStream(clientSocket.getOutputStream());
-                        outObj.writeObject(new ActionWrapper(longitude + "_" + latitude + "_" + preference, action, jobID));
-                        outObj.flush();
+                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + preference, action, jobID);
+                    outObj.writeObject(requestWrapper);
+                    outObj.flush();
 
+                    receivedResponse = inObj.readObject();
+                    handleGenericResponse(receivedResponse, "Search by price range successful.");
 
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    break;
 
-                } else if (this.action.equalsIgnoreCase("search_ratings")) {
+                case "search_ratings":
 
-                    switch (preference) {
-                        case "★☆☆☆☆":
-                            this.preference = "1";
-                            break;
-                        case "★★☆☆☆":
-                            this.preference = "2";
-                            break;
-                        case "★★★☆☆":
-                            this.preference = "3";
-                            break;
-                        case "★★★★☆":
-                            this.preference = "4";
-                            break;
-                        default:
-                            this.preference = "5";
-                            break;
-                    }
+                    String ratingPref = mapRatingPreference(this.preference);
+                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + ratingPref, action, jobID);
+                    outObj.writeObject(requestWrapper);
+                    outObj.flush();
 
-                    try {
+                    receivedResponse = inObj.readObject();
+                    handleGenericResponse(receivedResponse, "Search by ratings successful.");
 
-                        Socket clientSocket = new Socket(host, port);
-                        ObjectOutputStream outObj = new ObjectOutputStream(clientSocket.getOutputStream());
-                        outObj.writeObject(new ActionWrapper(longitude + "_" + latitude + "_" + preference, action, jobID));
-                        outObj.flush();
+                    break;
 
+                case "purchase_product":
 
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    String storeName = "some_store_name";
+                    String productName = "some_product_name";
 
-                } else if (this.action.equalsIgnoreCase("purchase_product")) {
+                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + storeName + "_" + productName, action, jobID);
+                    outObj.writeObject(requestWrapper);
+                    outObj.flush();
 
-                    String store = null, product = null;
+                    receivedResponse = inObj.readObject();
+                    handleGenericResponse(receivedResponse, "Product purchase initiated.");
 
-                    try {
+                    break;
 
-                        Socket clientSocket = new Socket(host, port);
-                        ObjectOutputStream outObj = new ObjectOutputStream(clientSocket.getOutputStream());
-                        outObj.writeObject(new ActionWrapper(longitude + "_" + latitude + "_" + store + "_" + product, action, jobID));
-                        outObj.flush();
+                case "rate_store":
 
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    String storeToRate = "some_store_name"; // You need to get this from UI input
+                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + storeToRate + "_" + preference, action, jobID);
+                    outObj.writeObject(requestWrapper);
+                    outObj.flush();
 
-                } else if (this.action.equalsIgnoreCase("rate_store")) {
+                    receivedResponse = inObj.readObject();
+                    handleGenericResponse(receivedResponse, "Store rating submitted.");
 
-                    String store = "";
+                    break;
 
-                    try {
+                default:
 
-                        Socket clientSocket = new Socket(host, port);
-                        ObjectOutputStream outObj = new ObjectOutputStream(clientSocket.getOutputStream());
-                        outObj.writeObject(new ActionWrapper(longitude + "_" + latitude + "_" + store + "_" + preference, action, jobID));
-                        outObj.flush();
+                    Log.w(TAG, "Unknown action: " + this.action);
+                    sendErrorMessage("Unknown action requested.");
 
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    break;
 
-                }
-
-                    /*
-                        if (this.action.equalsIgnoreCase("search_food_preference")) {
-
-                            String longitude1, latitude1, preference;
-
-                            longitude1 = String.valueOf(longitude);
-                            latitude1 = String.valueOf(latitude);
-
-                            try {
-
-                                Socket clientSocket = new Socket(host, port);
-                                ObjectOutputStream outObj = new ObjectOutputStream(clientSocket.getOutputStream());
-                                outObj.writeObject(new ActionWrapper(longitude1 + "_" + latitude1 + "_" + preference, action, jobID));
-                                outObj.flush();
-
-                                break;
-
-                            } catch (IOException ex) {
-                                throw new RuntimeException(ex);
-                            }
-
-                        }
-                    */
-
-
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e);
             }
 
         } catch (IOException e) {
+            Log.e(TAG, "Network or I/O error: " + e.getMessage(), e);
+            sendErrorMessage("Network error: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            Log.e(TAG, "Class not found error during deserialization: " + e.getMessage(), e);
+            sendErrorMessage("Data error: " + e.getMessage());
+        } catch (Exception e) { // Catch any other unexpected exceptions
+            Log.e(TAG, "An unexpected error occurred: " + e.getMessage(), e);
+            sendErrorMessage("An unexpected error occurred: " + e.getMessage());
+        } finally {
 
-            System.out.println("[Client " + role + "] Waiting for server on " + host + ":" + port + "...");
-
-            synchronized (lock) {
-                try {
-                    lock.wait(500);
-                } catch (InterruptedException ignored) {
-                }
+            try {
+                if (outObj != null) outObj.close();
+                if (inObj != null) inObj.close();
+                if (clientSocket != null) clientSocket.close();
+            } catch (IOException e) {
+                Log.e(TAG, "Error closing resources: " + e.getMessage(), e);
             }
 
         }
 
     }
 
+    private void handleShowcaseStoresResponse(Object receivedObject) {
+        if (receivedObject instanceof ActionWrapper) {
+            ActionWrapper w = (ActionWrapper) receivedObject;
+            if ("final_results".equalsIgnoreCase(w.getAction())) { // Server sends "final_results" for stores
+                Object resObj = w.getObject();
+                if (resObj instanceof List<?>) {
+                    try {
+                        List<Store> finalResults = (List<Store>) resObj;
+                        Message message = Message.obtain();
+                        if (finalResults != null && !finalResults.isEmpty()) {
+                            message.what = MESSAGE_SUCCESS;
+                            message.obj = finalResults;
+                            Log.d(TAG, "Received " + finalResults.size() + " stores.");
+                        } else {
+                            message.what = MESSAGE_NO_RESULTS;
+                            message.obj = null;
+                            Log.d(TAG, "No stores found.");
+                        }
+                        handler.sendMessage(message);
+                    } catch (ClassCastException e) {
+                        Log.e(TAG, "Received object is a List, but elements are not Store: " + e.getMessage(), e);
+                        sendErrorMessage("Received invalid store data.");
+                    }
+                } else {
+                    Log.e(TAG, "Expected List<Store> but received: " + (resObj != null ? resObj.getClass().getName() : "null"));
+                    sendErrorMessage("Server response format error.");
+                }
+            } else {
+                Log.e(TAG, "Unexpected action for showcase_stores response: " + w.getAction());
+                sendErrorMessage("Unexpected server response.");
+            }
+        } else {
+            Log.e(TAG, "Received non-ActionWrapper object: " + (receivedObject != null ? receivedObject.getClass().getName() : "null"));
+            sendErrorMessage("Server sent an unreadable response.");
+        }
+    }
+
+    // Handles responses for actions that don't return a List<Store>,
+    // assuming they return a simple confirmation/error message.
+    private void handleGenericResponse(Object receivedObject, String successMessage) {
+        if (receivedObject instanceof ActionWrapper) {
+            ActionWrapper w = (ActionWrapper) receivedObject;
+            // Assuming server sends a simple confirmation or error in ActionWrapper.getObject()
+            // You might need to adjust this based on your server's exact response for these actions.
+            String serverMessage = w.getObject() instanceof String ? (String) w.getObject() : "Operation completed.";
+
+            if ("success".equalsIgnoreCase(w.getAction())) { // Assuming server sends "success" action for success
+                sendMessage(successMessage + " Server says: " + serverMessage);
+            } else if ("error".equalsIgnoreCase(w.getAction())) { // Assuming server sends "error" action for failure
+                sendErrorMessage("Server error: " + serverMessage);
+            } else {
+                sendMessage("Server responded: " + serverMessage);
+            }
+        } else {
+            Log.e(TAG, "Received non-ActionWrapper object for generic response: " + (receivedObject != null ? receivedObject.getClass().getName() : "null"));
+            sendErrorMessage("Server sent an unreadable response for action.");
+        }
+    }
+
+
+    private String mapRatingPreference(String pref) {
+        switch (pref) {
+            case "★☆☆☆☆": return "1";
+            case "★★☆☆☆": return "2";
+            case "★★★☆☆": return "3";
+            case "★★★★☆": return "4";
+            case "★★★★★": // Handle 5 stars if it was the default
+            default: return "5"; // Default to 5 stars or a sensible default
+        }
+    }
+
+    private void sendErrorMessage(String message) {
+        Message errorMsg = Message.obtain();
+        errorMsg.what = MESSAGE_ERROR;
+        errorMsg.obj = message;
+        handler.sendMessage(errorMsg);
+    }
+
+    private void sendMessage(Object obj) {
+        Message msg = Message.obtain();
+        msg.what = ClientThread.MESSAGE_GENERIC_RESPONSE;
+        msg.obj = obj;
+        handler.sendMessage(msg);
+    }
 }

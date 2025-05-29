@@ -7,9 +7,13 @@ package com.example.deliveryapp.util;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Product implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Expose
     private String ProductName;
@@ -21,6 +25,7 @@ public class Product implements Serializable {
     private double Price;
     private boolean availability;
     private boolean client_availability;
+    private int productSales = 0;
 
     public Product(String ProductName, String ProductType, int AvailableAmount, double Price) {
         this.ProductName = ProductName;
@@ -65,13 +70,17 @@ public class Product implements Serializable {
         this.Price = Price;
     }
 
-    public void setAvailability(boolean availability){ this.availability=availability;}
+    public void setAvailability(boolean availability) { this.availability=availability;}
 
     public boolean isAvailable() { return availability; }
 
-    public void setClientAvailability(boolean client_availability){ this.client_availability = client_availability; }
+    public void setClientAvailability(boolean client_availability) { this.client_availability = client_availability; }
 
-    public boolean getClientAvailability(){ return this.client_availability; }
+    public boolean getClientAvailability() { return this.client_availability; }
+
+    public void setProductSales(int productSales) { this.productSales += productSales; }
+
+    public int getProductSales() { return this.productSales; }
 
     @Override
     public String toString() {

@@ -5,9 +5,13 @@ package com.example.deliveryapp.util;
  * @author      Christina Perifana   || p3220160
  **/
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class ActionWrapper implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private Object obj;
     private String action;

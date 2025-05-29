@@ -7,10 +7,13 @@ package com.example.deliveryapp.util;
 
 import com.google.gson.annotations.Expose;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
 public class Store implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Expose
     private String StoreName;
@@ -28,6 +31,9 @@ public class Store implements Serializable {
     private String StoreLogo;
     @Expose
     private List<Product> Products;
+    private int storeSales = 0;
+
+    private byte[] StoreLogoBytes;
 
     public Store(String StoreName, double Latitude, double Longitude, String FoodCategory, double Stars, int NoOfVotes, String StoreLogo, List<Product> Products) {
         this.StoreName = StoreName;
@@ -96,14 +102,6 @@ public class Store implements Serializable {
         this.Products = Products;
     }
 
-    public String getStoreLogo() {
-        return StoreLogo;
-    }
-
-    public void setStoreLogo(String StoreLogo) {
-        this.StoreLogo = StoreLogo;
-    }
-
     public String getStorePriceRange(){
 
         if (this.Products.isEmpty()){
@@ -142,6 +140,22 @@ public class Store implements Serializable {
         this.NoOfVotes++;
 
     }
+
+    public byte[] getStoreLogoBytes() { return StoreLogoBytes; }
+
+    public void setStoreLogoBytes(byte[] StoreLogoBytes) { this.StoreLogoBytes = StoreLogoBytes; }
+
+    public void setStoreLogo(String storeLogo) { this.StoreLogo = storeLogo; }
+
+    public String getStoreLogo() { return this.StoreLogo; }
+
+    public void setStoreSales(){
+        for (Product p : Products){
+            this.storeSales += p.getProductSales();
+        }
+    }
+
+    public int getStoreSales(){ return  this.storeSales; }
 
     @Override
     public String toString() {

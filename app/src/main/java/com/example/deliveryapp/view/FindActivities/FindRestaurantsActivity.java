@@ -6,18 +6,32 @@ package com.example.deliveryapp.view.FindActivities;
  **/
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.deliveryapp.R;
+import com.example.deliveryapp.util.Store;
+import com.example.deliveryapp.util.StoreAdapter;
 import com.example.deliveryapp.view.ClientThread;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FindRestaurantsActivity extends AppCompatActivity {
+
+    Handler handler;
+    List<Store> items;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +45,69 @@ public class FindRestaurantsActivity extends AppCompatActivity {
         ImageButton submitButton = findViewById(R.id.submitButton);
         AppCompatButton selectButton = findViewById(R.id.select);
         AppCompatButton backButton = findViewById(R.id.back);
-        ListView listView = findViewById(R.id.list);
+        listView = findViewById(R.id.list);
+
+        items = new ArrayList<>();
+        StoreAdapter adapter = new StoreAdapter(FindRestaurantsActivity.this, items);
+        listView.setAdapter(adapter);
+
+        handler = new Handler(Looper.getMainLooper()) {
+
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+
+                super.handleMessage(msg);
+
+                switch (msg.what) {
+
+                    case ClientThread.MESSAGE_SUCCESS:
+
+                        if (msg.obj instanceof List) {
+
+                            List<Store> fetchedItems = (List<Store>) msg.obj;
+
+                            items.clear();
+                            items.addAll(fetchedItems);
+                            ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
+                            Toast.makeText(FindRestaurantsActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            Toast.makeText(FindRestaurantsActivity.this, "Failed to retrieve restaurants: Invalid data type.", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        break;
+
+                    case ClientThread.MESSAGE_NO_RESULTS:
+
+                        items.clear();
+                        ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
+                        Toast.makeText(FindRestaurantsActivity.this, "No restaurants found.", Toast.LENGTH_SHORT).show();
+
+                        break;
+
+                    case ClientThread.MESSAGE_ERROR:
+
+                        String errorMessage = (msg.obj instanceof String) ? (String) msg.obj : "An unknown error occurred.";
+                        Toast.makeText(FindRestaurantsActivity.this, "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+
+                        items.clear();
+                        ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
+
+                        break;
+
+                    default:
+
+                        Toast.makeText(FindRestaurantsActivity.this, "Received unknown message type.", Toast.LENGTH_SHORT).show();
+
+                        break;
+
+                }
+
+            }
+
+        };
 
         submitButton.setOnClickListener(v -> {
 
@@ -46,7 +122,8 @@ public class FindRestaurantsActivity extends AppCompatActivity {
             } else if (longitude.isEmpty()){
                 longitudeInput.setError("Necessary input");
             } else {
-                Thread clientThread = new Thread(new ClientThread("192.168.1.84", 5000, longitude,latitude,null,"showcase_stores", "Client"));
+                Toast.makeText(this, "Searching for restaurants...", Toast.LENGTH_SHORT).show();
+                Thread clientThread = new Thread(new ClientThread(handler,"192.168.8.118", 5000, longitude,latitude,null,"showcase_stores"));
                 clientThread.start();
             }
 
