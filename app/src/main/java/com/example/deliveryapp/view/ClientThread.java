@@ -70,7 +70,7 @@ public class ClientThread implements Runnable {
                     outObj.flush();
 
                     receivedResponse = inObj.readObject();
-                    handleShowcaseStoresResponse(receivedResponse);
+                    handleStoreListResponse(receivedResponse);
 
                     break;
 
@@ -106,19 +106,20 @@ public class ClientThread implements Runnable {
                     outObj.flush();
 
                     receivedResponse = inObj.readObject();
-                    handleGenericResponse(receivedResponse, "Product purchase initiated.");
+                    handleStoreListResponse(receivedResponse);
 
                     break;
 
                 case "rate_store":
 
-                    String storeToRate = "some_store_name"; // You need to get this from UI input
-                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + storeToRate + "_" + preference, action, jobID);
+                    String[] parts = preference.split("_",2);
+
+                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + parts[0] + "_" + mapRatingPreference(parts[1]), action, jobID);
                     outObj.writeObject(requestWrapper);
                     outObj.flush();
 
                     receivedResponse = inObj.readObject();
-                    handleGenericResponse(receivedResponse, "Store rating submitted.");
+                    handleStoreListResponse(receivedResponse);
 
                     break;
 
@@ -149,69 +150,6 @@ public class ClientThread implements Runnable {
             } catch (IOException e) {
                 Log.e(TAG, "Error closing resources: " + e.getMessage(), e);
             }
-
-        }
-
-    }
-
-    private void handleShowcaseStoresResponse(Object receivedObject) {
-
-        if (receivedObject instanceof ActionWrapper) {
-
-            ActionWrapper w = (ActionWrapper) receivedObject;
-
-            if ("final_results".equalsIgnoreCase(w.getAction())) {
-
-                Object resObj = w.getObject();
-
-                if (resObj instanceof List<?>) {
-
-                    try {
-
-                        List<Store> finalResults = (List<Store>) resObj;
-                        Message message = Message.obtain();
-
-                        if (finalResults != null && !finalResults.isEmpty()) {
-
-                            message.what = MESSAGE_SUCCESS;
-                            message.obj = finalResults;
-                            Log.d(TAG, "Received " + finalResults.size() + " stores.");
-
-                        } else {
-
-                            message.what = MESSAGE_NO_RESULTS;
-                            message.obj = null;
-                            Log.d(TAG, "No stores found.");
-
-                        }
-
-                        handler.sendMessage(message);
-
-                    } catch (ClassCastException e) {
-
-                        Log.e(TAG, "Received object is a List, but elements are not Store: " + e.getMessage(), e);
-                        sendErrorMessage("Received invalid store data.");
-
-                    }
-
-                } else {
-
-                    Log.e(TAG, "Expected List<Store> but received: " + (resObj != null ? resObj.getClass().getName() : "null"));
-                    sendErrorMessage("Server response format error.");
-
-                }
-
-            } else {
-
-                Log.e(TAG, "Unexpected action for showcase_stores response: " + w.getAction());
-                sendErrorMessage("Unexpected server response.");
-
-            }
-
-        } else {
-
-            Log.e(TAG, "Received non-ActionWrapper object: " + (receivedObject != null ? receivedObject.getClass().getName() : "null"));
-            sendErrorMessage("Server sent an unreadable response.");
 
         }
 

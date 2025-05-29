@@ -25,6 +25,7 @@ import com.example.deliveryapp.R;
 import com.example.deliveryapp.util.Store;
 import com.example.deliveryapp.util.StoreAdapter;
 import com.example.deliveryapp.view.ClientThread;
+import com.example.deliveryapp.view.RateActivities.RateRestaurantsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class RatingsFilterActivity extends AppCompatActivity {
     Handler handler;
     List<Store> items;
     ListView listView;
+    StoreAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +53,16 @@ public class RatingsFilterActivity extends AppCompatActivity {
         listView = findViewById(R.id.list);
 
         items = new ArrayList<>();
-        StoreAdapter adapter = new StoreAdapter(RatingsFilterActivity.this, items);
+        adapter = new StoreAdapter(RatingsFilterActivity.this, items);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+
+            Store clickedStore = (Store) parent.getItemAtPosition(position);
+            adapter.setSelectedStore(clickedStore);
+            Toast.makeText(RatingsFilterActivity.this, "Selected: " + clickedStore.getStoreName(), Toast.LENGTH_SHORT).show();
+
+        });
 
         handler = new Handler(Looper.getMainLooper()) {
 
@@ -141,13 +151,40 @@ public class RatingsFilterActivity extends AppCompatActivity {
                 optionButton.setError("Please select a rating");
             } else {
                 Toast.makeText(this, "Searching for restaurants...", Toast.LENGTH_SHORT).show();
-                Thread clientThread = new Thread(new ClientThread(handler,"172.20.10.2", 5000, longitude,latitude,selectedCategory,"search_ratings"));
+                Thread clientThread = new Thread(new ClientThread(handler,"192.168.1.90", 5000, longitude,latitude,selectedCategory,"search_ratings"));
                 clientThread.start();
             }
 
         });
 
         backButton.setOnClickListener(v -> finish());
+
+        selectButton.setOnClickListener(v -> {
+
+            if (!items.isEmpty()) {
+
+                if (adapter.isItemSelected()) {
+
+                    String longitude = longitudeInput.getText().toString();
+                    String latitude = latitudeInput.getText().toString();
+
+                    Store selectedStore = adapter.getSelectedStore();
+
+                    Toast.makeText(this, "Opening restaurant: " + selectedStore.getStoreName(), Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    Toast.makeText(this, "Please select a restaurant from the list.", Toast.LENGTH_SHORT).show();
+
+                }
+
+            } else {
+
+                Toast.makeText(this, "No restaurants available to select.", Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
 
     }
 

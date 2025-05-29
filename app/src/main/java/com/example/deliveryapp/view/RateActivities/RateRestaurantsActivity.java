@@ -8,29 +8,33 @@ package com.example.deliveryapp.view.RateActivities;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.deliveryapp.R;
 import com.example.deliveryapp.util.Store;
+import com.example.deliveryapp.util.StoreAdapter;
 import com.example.deliveryapp.view.ClientThread;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RateRestaurantsActivity extends AppCompatActivity {
 
     Handler handler;
-
     List<Store> items;
+    ListView listView;
+    StoreAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,25 +49,86 @@ public class RateRestaurantsActivity extends AppCompatActivity {
         ImageButton submitButton = findViewById(R.id.submitButton);
         AppCompatButton selectButton = findViewById(R.id.select);
         AppCompatButton backButton = findViewById(R.id.back);
-        ListView listView = findViewById(R.id.list);
+        listView = findViewById(R.id.list);
 
-        handler = new Handler(Looper.getMainLooper(), message -> {
-            if (message.what == 1){
-                Toast.makeText(RateRestaurantsActivity.this, "Connection OK! "+items.size(), Toast.LENGTH_SHORT).show();
-                ((BaseAdapter)listView.getAdapter()).notifyDataSetChanged();
-            }
-            return false;
+        items = new ArrayList<>();
+        adapter = new StoreAdapter(RateRestaurantsActivity.this, items);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+
+            Store clickedStore = (Store) parent.getItemAtPosition(position);
+            adapter.setSelectedStore(clickedStore);
+            Toast.makeText(RateRestaurantsActivity.this, "Selected: " + clickedStore.getStoreName(), Toast.LENGTH_SHORT).show();
+
         });
 
+        handler = new Handler(Looper.getMainLooper()) {
+
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+
+                super.handleMessage(msg);
+
+                switch (msg.what) {
+
+                    case ClientThread.MESSAGE_SUCCESS:
+
+                        if (msg.obj instanceof List) {
+
+                            List<Store> fetchedItems = (List<Store>) msg.obj;
+
+                            items.clear();
+                            items.addAll(fetchedItems);
+                            ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
+                            Toast.makeText(RateRestaurantsActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            Toast.makeText(RateRestaurantsActivity.this, "Failed to retrieve restaurants: Invalid data type.", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        break;
+
+                    case ClientThread.MESSAGE_NO_RESULTS:
+
+                        items.clear();
+                        ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
+                        Toast.makeText(RateRestaurantsActivity.this, "No restaurants found.", Toast.LENGTH_SHORT).show();
+
+                        break;
+
+                    case ClientThread.MESSAGE_ERROR:
+
+                        String errorMessage = (msg.obj instanceof String) ? (String) msg.obj : "An unknown error occurred.";
+                        Toast.makeText(RateRestaurantsActivity.this, "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+
+                        items.clear();
+                        ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
+
+                        break;
+
+                    default:
+
+                        Toast.makeText(RateRestaurantsActivity.this, "Received unknown message type.", Toast.LENGTH_SHORT).show();
+
+                        break;
+
+                }
+
+            }
+
+        };
+
         String[] categories = {"★☆☆☆☆", "★★☆☆☆", "★★★☆☆", "★★★★☆", "★★★★★"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
-        optionButton.setAdapter(adapter);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+        optionButton.setAdapter(adapter1);
 
         submitButton.setOnClickListener(v -> {
 
             String longitude = longitudeInput.getText().toString();
             String latitude = latitudeInput.getText().toString();
-            String selectedCategory = optionButton.getText().toString();
 
             if (longitude.isEmpty() && latitude.isEmpty()) {
                 longitudeInput.setError("Necessary input");
@@ -72,10 +137,9 @@ public class RateRestaurantsActivity extends AppCompatActivity {
                 latitudeInput.setError("Necessary input");
             } else if (longitude.isEmpty()){
                 longitudeInput.setError("Necessary input");
-            } else if (selectedCategory.isEmpty()) {
-                optionButton.setError("Please select a rating");
             } else {
-                Thread clientThread = new Thread(new ClientThread(handler,"192.168.1.84", 5000, longitude,latitude,selectedCategory,"rate_store"));
+                Toast.makeText(this, "Searching for restaurants...", Toast.LENGTH_SHORT).show();
+                Thread clientThread = new Thread(new ClientThread(handler,"192.168.1.90", 5000, longitude,latitude,null,"showcase_stores"));
                 clientThread.start();
             }
 
@@ -83,6 +147,47 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
         backButton.setOnClickListener(v -> finish());
 
+        selectButton.setOnClickListener(v -> {
+
+            if (!items.isEmpty()) {
+
+                if (adapter.isItemSelected()) {
+
+                    String longitude = longitudeInput.getText().toString();
+                    String latitude = latitudeInput.getText().toString();
+                    String selectedRating = optionButton.getText().toString();
+
+                    if (selectedRating.isEmpty()) {
+
+                        optionButton.setError("Please select a rating");
+                        Toast.makeText(this, "Please select a rating for the store.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Store selectedStore = adapter.getSelectedStore();
+
+                    Toast.makeText(this, "Submitting rating for: " + selectedStore.getStoreName() + " with rating: " + selectedRating, Toast.LENGTH_LONG).show();
+
+                    String preferenceForClientThread = selectedStore.getStoreName() + "_" + selectedRating;
+
+                    Thread clientThread = new Thread(new ClientThread(handler, "192.168.1.90", 5000, longitude, latitude, preferenceForClientThread, "rate_store"));
+                    clientThread.start();
+
+                } else {
+
+                    Toast.makeText(this, "Please select a restaurant from the list.", Toast.LENGTH_SHORT).show();
+
+                }
+
+            } else {
+
+                Toast.makeText(this, "No restaurants available to select.", Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+
     }
 
 }
+

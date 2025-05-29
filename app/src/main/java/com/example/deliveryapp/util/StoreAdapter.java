@@ -16,12 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.example.deliveryapp.R;
 
 import java.util.List;
 
 public class StoreAdapter extends ArrayAdapter<Store> {
+
+    private Store selectedStore = null;
 
     public StoreAdapter(Context context, List<Store> stores) {
         super(context, 0, stores);
@@ -30,6 +33,7 @@ public class StoreAdapter extends ArrayAdapter<Store> {
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+
         Store store = getItem(position);
 
         if (convertView == null) {
@@ -53,12 +57,37 @@ public class StoreAdapter extends ArrayAdapter<Store> {
             } else {
                 logoImageView.setImageResource(R.drawable.logo_transparent);
             }
+
         } else {
             logoImageView.setImageResource(R.drawable.logo_transparent);
         }
 
+        if (store.equals(selectedStore)) {
+            convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.box_stroke_color));
+        } else {
+            convertView.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
+        }
+
         return convertView;
 
+    }
+
+    public void setSelectedStore(Store store) {
+        this.selectedStore = store;
+        notifyDataSetChanged();
+    }
+
+    public Store getSelectedStore() {
+        return selectedStore;
+    }
+
+    public boolean isItemSelected() {
+        return selectedStore != null;
+    }
+
+    public void clearSelection() {
+        this.selectedStore = null;
+        notifyDataSetChanged();
     }
 
 }
