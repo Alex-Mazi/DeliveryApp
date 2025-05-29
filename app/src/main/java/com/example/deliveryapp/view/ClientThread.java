@@ -19,7 +19,7 @@ import com.example.deliveryapp.util.*;
 
 public class ClientThread implements Runnable {
 
-    private static final String TAG = "ClientThread"; // Tag for logging
+    private static final String TAG = "ClientThread";
 
     private Handler handler;
     private String host;
@@ -27,12 +27,12 @@ public class ClientThread implements Runnable {
     private String action;
     private String longitude;
     private String latitude;
-    private String preference; // Used for price range or ratings
+    private String preference;
 
     public static final int MESSAGE_SUCCESS = 1;
     public static final int MESSAGE_ERROR = 0;
-    public static final int MESSAGE_NO_RESULTS = 2; // For empty list feedback
-    public static final int MESSAGE_GENERIC_RESPONSE = 3; // For actions that don't return List<Store>
+    public static final int MESSAGE_NO_RESULTS = 2;
+    public static final int MESSAGE_GENERIC_RESPONSE = 3;
 
     public ClientThread(Handler handler, String host, int port, String longitude, String latitude, String preference, String action) {
         this.handler = handler;
@@ -81,19 +81,18 @@ public class ClientThread implements Runnable {
                     outObj.flush();
 
                     receivedResponse = inObj.readObject();
-                    handleGenericResponse(receivedResponse, "Search by price range successful.");
+                    handleStoreListResponse(receivedResponse);
 
                     break;
 
                 case "search_ratings":
 
-                    String ratingPref = mapRatingPreference(this.preference);
-                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + ratingPref, action, jobID);
+                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + mapRatingPreference(this.preference), action, jobID);
                     outObj.writeObject(requestWrapper);
                     outObj.flush();
 
                     receivedResponse = inObj.readObject();
-                    handleGenericResponse(receivedResponse, "Search by ratings successful.");
+                    handleStoreListResponse(receivedResponse);
 
                     break;
 
@@ -156,87 +155,192 @@ public class ClientThread implements Runnable {
     }
 
     private void handleShowcaseStoresResponse(Object receivedObject) {
+
         if (receivedObject instanceof ActionWrapper) {
+
             ActionWrapper w = (ActionWrapper) receivedObject;
-            if ("final_results".equalsIgnoreCase(w.getAction())) { // Server sends "final_results" for stores
+
+            if ("final_results".equalsIgnoreCase(w.getAction())) {
+
                 Object resObj = w.getObject();
+
                 if (resObj instanceof List<?>) {
+
                     try {
+
                         List<Store> finalResults = (List<Store>) resObj;
                         Message message = Message.obtain();
+
                         if (finalResults != null && !finalResults.isEmpty()) {
+
                             message.what = MESSAGE_SUCCESS;
                             message.obj = finalResults;
                             Log.d(TAG, "Received " + finalResults.size() + " stores.");
+
                         } else {
+
                             message.what = MESSAGE_NO_RESULTS;
                             message.obj = null;
                             Log.d(TAG, "No stores found.");
+
                         }
+
                         handler.sendMessage(message);
+
                     } catch (ClassCastException e) {
+
                         Log.e(TAG, "Received object is a List, but elements are not Store: " + e.getMessage(), e);
                         sendErrorMessage("Received invalid store data.");
+
                     }
+
                 } else {
+
                     Log.e(TAG, "Expected List<Store> but received: " + (resObj != null ? resObj.getClass().getName() : "null"));
                     sendErrorMessage("Server response format error.");
+
                 }
+
             } else {
+
                 Log.e(TAG, "Unexpected action for showcase_stores response: " + w.getAction());
                 sendErrorMessage("Unexpected server response.");
+
             }
+
         } else {
+
             Log.e(TAG, "Received non-ActionWrapper object: " + (receivedObject != null ? receivedObject.getClass().getName() : "null"));
             sendErrorMessage("Server sent an unreadable response.");
+
         }
+
     }
 
-    // Handles responses for actions that don't return a List<Store>,
-    // assuming they return a simple confirmation/error message.
-    private void handleGenericResponse(Object receivedObject, String successMessage) {
+    private void handleStoreListResponse(Object receivedObject) {
+
         if (receivedObject instanceof ActionWrapper) {
+
             ActionWrapper w = (ActionWrapper) receivedObject;
-            // Assuming server sends a simple confirmation or error in ActionWrapper.getObject()
-            // You might need to adjust this based on your server's exact response for these actions.
+
+            if ("final_results".equalsIgnoreCase(w.getAction())) {
+
+                Object resObj = w.getObject();
+
+                if (resObj instanceof List) {
+
+                    try {
+
+                        List<Store> finalResults = (List<Store>) resObj;
+                        Message message = Message.obtain();
+
+                        if (finalResults != null && !finalResults.isEmpty()) {
+
+                            message.what = MESSAGE_SUCCESS;
+                            message.obj = finalResults;
+                            Log.d(TAG, "Received " + finalResults.size() + " stores for search.");
+
+                        } else {
+
+                            message.what = MESSAGE_NO_RESULTS;
+                            message.obj = null;
+                            Log.d(TAG, "No stores found for search.");
+
+                        }
+
+                        handler.sendMessage(message);
+
+                    } catch (ClassCastException e) {
+
+                        Log.e(TAG, "Received List, but elements are not Store: " + e.getMessage(), e);
+                        sendErrorMessage("Received invalid store data for search.");
+
+                    }
+
+                } else {
+
+                    Log.e(TAG, "Server did not send a List<Store> for final_results: " + (resObj != null ? resObj.getClass().getName() : "null"));
+                    sendErrorMessage("Server response format error for search: Expected List<Store>.");
+
+                }
+
+            } else if ("error".equalsIgnoreCase(w.getAction())) {
+
+                String errorMessage = (w.getObject() instanceof String) ? (String) w.getObject() : "Server error during search.";
+                sendErrorMessage(errorMessage);
+
+            } else {
+
+                Log.e(TAG, "Unexpected action from server for store list search: " + w.getAction());
+                sendErrorMessage("Server responded with an unexpected action: " + w.getAction());
+
+            }
+
+        } else {
+
+            Log.e(TAG, "Received non-ActionWrapper object for store list response: " + (receivedObject != null ? receivedObject.getClass().getName() : "null"));
+            sendErrorMessage("Server sent an unreadable response object for search.");
+
+        }
+
+    }
+
+    private void handleGenericResponse(Object receivedObject, String successMessage) {
+
+        if (receivedObject instanceof ActionWrapper) {
+
+            ActionWrapper w = (ActionWrapper) receivedObject;
             String serverMessage = w.getObject() instanceof String ? (String) w.getObject() : "Operation completed.";
 
-            if ("success".equalsIgnoreCase(w.getAction())) { // Assuming server sends "success" action for success
+            if ("success".equalsIgnoreCase(w.getAction())) {
                 sendMessage(successMessage + " Server says: " + serverMessage);
-            } else if ("error".equalsIgnoreCase(w.getAction())) { // Assuming server sends "error" action for failure
+            } else if ("error".equalsIgnoreCase(w.getAction())) {
                 sendErrorMessage("Server error: " + serverMessage);
             } else {
                 sendMessage("Server responded: " + serverMessage);
             }
+
         } else {
+
             Log.e(TAG, "Received non-ActionWrapper object for generic response: " + (receivedObject != null ? receivedObject.getClass().getName() : "null"));
             sendErrorMessage("Server sent an unreadable response for action.");
+
         }
+
     }
 
 
     private String mapRatingPreference(String pref) {
+
         switch (pref) {
             case "★☆☆☆☆": return "1";
             case "★★☆☆☆": return "2";
             case "★★★☆☆": return "3";
             case "★★★★☆": return "4";
-            case "★★★★★": // Handle 5 stars if it was the default
-            default: return "5"; // Default to 5 stars or a sensible default
+            case "★★★★★":
+            default: return "5";
         }
+
     }
 
     private void sendErrorMessage(String message) {
+
         Message errorMsg = Message.obtain();
         errorMsg.what = MESSAGE_ERROR;
         errorMsg.obj = message;
+
         handler.sendMessage(errorMsg);
+
     }
 
     private void sendMessage(Object obj) {
+
         Message msg = Message.obtain();
         msg.what = ClientThread.MESSAGE_GENERIC_RESPONSE;
         msg.obj = obj;
+
         handler.sendMessage(msg);
+
     }
+
 }

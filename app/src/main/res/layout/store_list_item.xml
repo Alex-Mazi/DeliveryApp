@@ -1,26 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/storeLogo"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:scaleType="centerCrop"
-        android:contentDescription="Store logo"
+        android:src="@mipmap/ic_launcher"
         android:layout_marginEnd="12dp"
-        android:src="@mipmap/ic_launcher" />
+        android:contentDescription="@string/store_logo"
+        app:shapeAppearanceOverlay="@style/RoundImageView" />
 
-    <TextView
-        android:id="@+id/storeName"
+    <!-- Container to position text vertically -->
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Store Name"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:orientation="vertical"
+        android:gravity="top|start"> <!-- aligns child to top-left -->
+
+        <TextView
+            android:id="@+id/storeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/store_name"
+            android:textColor="#0F0000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 </LinearLayout>

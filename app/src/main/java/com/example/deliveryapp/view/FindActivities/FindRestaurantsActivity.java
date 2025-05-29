@@ -123,7 +123,7 @@ public class FindRestaurantsActivity extends AppCompatActivity {
                 longitudeInput.setError("Necessary input");
             } else {
                 Toast.makeText(this, "Searching for restaurants...", Toast.LENGTH_SHORT).show();
-                Thread clientThread = new Thread(new ClientThread(handler,"192.168.8.118", 5000, longitude,latitude,null,"showcase_stores"));
+                Thread clientThread = new Thread(new ClientThread(handler,"172.20.10.2", 5000, longitude,latitude,null,"showcase_stores"));
                 clientThread.start();
             }
 
