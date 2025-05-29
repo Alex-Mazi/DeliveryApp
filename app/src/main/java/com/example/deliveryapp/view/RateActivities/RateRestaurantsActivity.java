@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import com.example.deliveryapp.R;
 import com.example.deliveryapp.util.Store;
 import com.example.deliveryapp.util.StoreAdapter;
 import com.example.deliveryapp.view.ClientThread;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,8 @@ public class RateRestaurantsActivity extends AppCompatActivity {
     List<Store> items;
     ListView listView;
     StoreAdapter adapter;
+    AutoCompleteTextView optionButton;
+    TextInputLayout categoryInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +49,13 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
         EditText longitudeInput = findViewById(R.id.longitudeInput);
         EditText latitudeInput = findViewById(R.id.latitudeInput);
-        AutoCompleteTextView optionButton = findViewById(R.id.categoryAutoComplete);
+        optionButton = findViewById(R.id.categoryAutoComplete);
         ImageButton submitButton = findViewById(R.id.submitButton);
         AppCompatButton selectButton = findViewById(R.id.select);
         AppCompatButton backButton = findViewById(R.id.back);
         listView = findViewById(R.id.list);
+        categoryInputLayout = findViewById(R.id.categoryInputLayout);
+        categoryInputLayout.setVisibility(View.GONE);
 
         items = new ArrayList<>();
         adapter = new StoreAdapter(RateRestaurantsActivity.this, items);
@@ -60,6 +66,9 @@ public class RateRestaurantsActivity extends AppCompatActivity {
             Store clickedStore = (Store) parent.getItemAtPosition(position);
             adapter.setSelectedStore(clickedStore);
             Toast.makeText(RateRestaurantsActivity.this, "Selected: " + clickedStore.getStoreName(), Toast.LENGTH_SHORT).show();
+
+            optionButton.setText("");
+            categoryInputLayout.setVisibility(View.GONE);
 
         });
 
@@ -83,6 +92,9 @@ public class RateRestaurantsActivity extends AppCompatActivity {
                             ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
                             Toast.makeText(RateRestaurantsActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
 
+                            categoryInputLayout.setVisibility(View.GONE);
+                            optionButton.setText("");
+
                         } else {
 
                             Toast.makeText(RateRestaurantsActivity.this, "Failed to retrieve restaurants: Invalid data type.", Toast.LENGTH_SHORT).show();
@@ -97,6 +109,9 @@ public class RateRestaurantsActivity extends AppCompatActivity {
                         ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
                         Toast.makeText(RateRestaurantsActivity.this, "No restaurants found.", Toast.LENGTH_SHORT).show();
 
+                        categoryInputLayout.setVisibility(View.GONE);
+                        optionButton.setText("");
+
                         break;
 
                     case ClientThread.MESSAGE_ERROR:
@@ -106,6 +121,9 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
                         items.clear();
                         ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
+
+                        categoryInputLayout.setVisibility(View.GONE);
+                        optionButton.setText("");
 
                         break;
 
@@ -124,6 +142,14 @@ public class RateRestaurantsActivity extends AppCompatActivity {
         String[] categories = {"★☆☆☆☆", "★★☆☆☆", "★★★☆☆", "★★★★☆", "★★★★★"};
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
         optionButton.setAdapter(adapter1);
+
+        optionButton.setOnClickListener(v -> {
+
+            if (categoryInputLayout.getVisibility() == View.VISIBLE) {
+                optionButton.showDropDown();
+            }
+
+        });
 
         submitButton.setOnClickListener(v -> {
 
@@ -153,15 +179,30 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
                 if (adapter.isItemSelected()) {
 
+                    categoryInputLayout.setVisibility(View.VISIBLE);
+                    optionButton.showDropDown();
+
                     String longitude = longitudeInput.getText().toString();
                     String latitude = latitudeInput.getText().toString();
                     String selectedRating = optionButton.getText().toString();
 
-                    if (selectedRating.isEmpty()) {
+                    boolean isRatingSelected = false;
+                    for (String category : categories) {
+
+                        if (category.equals(selectedRating)) {
+                            isRatingSelected = true;
+                            break;
+                        }
+
+                    }
+
+                    if (!isRatingSelected) {
 
                         optionButton.setError("Please select a rating");
                         Toast.makeText(this, "Please select a rating for the store.", Toast.LENGTH_SHORT).show();
+
                         return;
+
                     }
 
                     Store selectedStore = adapter.getSelectedStore();
@@ -177,6 +218,9 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
                     Toast.makeText(this, "Please select a restaurant from the list.", Toast.LENGTH_SHORT).show();
 
+                    categoryInputLayout.setVisibility(View.GONE);
+                    optionButton.setText("");
+
                 }
 
             } else {
@@ -185,6 +229,15 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
             }
 
+        });
+
+        optionButton.setOnItemClickListener((parent, view, position, id) -> {
+
+            String selectedRating = (String) parent.getItemAtPosition(position);
+
+            Toast.makeText(RateRestaurantsActivity.this, "Rating selected: " + selectedRating, Toast.LENGTH_SHORT).show();
+
+            optionButton.setError(null);
         });
 
     }

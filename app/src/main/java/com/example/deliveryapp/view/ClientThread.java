@@ -56,6 +56,7 @@ public class ClientThread implements Runnable {
 
             clientSocket = new Socket(host, port);
             outObj = new ObjectOutputStream(clientSocket.getOutputStream());
+            outObj.flush();
             inObj = new ObjectInputStream(clientSocket.getInputStream());
 
             ActionWrapper requestWrapper;
