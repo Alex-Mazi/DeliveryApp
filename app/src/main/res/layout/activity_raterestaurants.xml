@@ -88,34 +88,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/longitudeInput" />
 
-    <!-- "Rating Options" Dropdown List -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/categoryInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="152dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="77dp"
-        android:hint="@string/rating_options"
-        app:boxStrokeColor="@color/box_stroke_color"
-        app:endIconMode="dropdown_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.583"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
-
-        <AutoCompleteTextView
-            android:id="@+id/categoryAutoComplete"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:inputType="none"
-            android:padding="0dp"
-            android:textColor="@android:color/black"
-            android:textColorLink="@android:color/black"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
     <!-- "Submit" Button -->
     <ImageButton
         android:id="@+id/submitButton"
@@ -173,10 +145,11 @@
         android:id="@+id/list"
         android:layout_width="382dp"
         android:layout_height="467dp"
+        android:layout_marginBottom="44dp"
         android:background="@drawable/listview_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintHorizontal_bias="0.448"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/categoryInputLayout"
         app:layout_constraintVertical_bias="0.343" />

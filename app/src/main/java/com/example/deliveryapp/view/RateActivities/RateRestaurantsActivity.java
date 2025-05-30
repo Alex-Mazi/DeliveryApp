@@ -5,12 +5,13 @@ package com.example.deliveryapp.view.RateActivities;
  * @author      Christina Perifana   || p3220160
  **/
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -27,6 +28,9 @@ import com.example.deliveryapp.util.Store;
 import com.example.deliveryapp.util.StoreAdapter;
 import com.example.deliveryapp.view.ClientThread;
 import com.google.android.material.textfield.TextInputLayout;
+
+import android.app.AlertDialog;
+import android.widget.RatingBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +53,10 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
         EditText longitudeInput = findViewById(R.id.longitudeInput);
         EditText latitudeInput = findViewById(R.id.latitudeInput);
-        optionButton = findViewById(R.id.categoryAutoComplete);
         ImageButton submitButton = findViewById(R.id.submitButton);
         AppCompatButton selectButton = findViewById(R.id.select);
         AppCompatButton backButton = findViewById(R.id.back);
         listView = findViewById(R.id.list);
-        categoryInputLayout = findViewById(R.id.categoryInputLayout);
-        categoryInputLayout.setVisibility(View.GONE);
 
         items = new ArrayList<>();
         adapter = new StoreAdapter(RateRestaurantsActivity.this, items);
@@ -66,9 +67,6 @@ public class RateRestaurantsActivity extends AppCompatActivity {
             Store clickedStore = (Store) parent.getItemAtPosition(position);
             adapter.setSelectedStore(clickedStore);
             Toast.makeText(RateRestaurantsActivity.this, "Selected: " + clickedStore.getStoreName(), Toast.LENGTH_SHORT).show();
-
-            optionButton.setText("");
-            categoryInputLayout.setVisibility(View.GONE);
 
         });
 
@@ -92,9 +90,6 @@ public class RateRestaurantsActivity extends AppCompatActivity {
                             ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
                             Toast.makeText(RateRestaurantsActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
 
-                            categoryInputLayout.setVisibility(View.GONE);
-                            optionButton.setText("");
-
                         } else {
 
                             Toast.makeText(RateRestaurantsActivity.this, "Failed to retrieve restaurants: Invalid data type.", Toast.LENGTH_SHORT).show();
@@ -108,9 +103,6 @@ public class RateRestaurantsActivity extends AppCompatActivity {
                         items.clear();
                         ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
                         Toast.makeText(RateRestaurantsActivity.this, "No restaurants found.", Toast.LENGTH_SHORT).show();
-
-                        categoryInputLayout.setVisibility(View.GONE);
-                        optionButton.setText("");
 
                         break;
 
@@ -139,18 +131,6 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
         };
 
-        String[] categories = {"★☆☆☆☆", "★★☆☆☆", "★★★☆☆", "★★★★☆", "★★★★★"};
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
-        optionButton.setAdapter(adapter1);
-
-        optionButton.setOnClickListener(v -> {
-
-            if (categoryInputLayout.getVisibility() == View.VISIBLE) {
-                optionButton.showDropDown();
-            }
-
-        });
-
         submitButton.setOnClickListener(v -> {
 
             String longitude = longitudeInput.getText().toString();
@@ -174,71 +154,65 @@ public class RateRestaurantsActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
 
         selectButton.setOnClickListener(v -> {
-
             if (!items.isEmpty()) {
-
                 if (adapter.isItemSelected()) {
-
-                    categoryInputLayout.setVisibility(View.VISIBLE);
-                    optionButton.showDropDown();
-
-                    String longitude = longitudeInput.getText().toString();
-                    String latitude = latitudeInput.getText().toString();
-                    String selectedRating = optionButton.getText().toString();
-
-                    boolean isRatingSelected = false;
-                    for (String category : categories) {
-
-                        if (category.equals(selectedRating)) {
-                            isRatingSelected = true;
-                            break;
-                        }
-
-                    }
-
-                    if (!isRatingSelected) {
-
-                        optionButton.setError("Please select a rating");
-                        Toast.makeText(this, "Please select a rating for the store.", Toast.LENGTH_SHORT).show();
-
-                        return;
-
-                    }
-
-                    Store selectedStore = adapter.getSelectedStore();
-
-                    Toast.makeText(this, "Submitting rating for: " + selectedStore.getStoreName() + " with rating: " + selectedRating, Toast.LENGTH_LONG).show();
-
-                    String preferenceForClientThread = selectedStore.getStoreName() + "_" + selectedRating;
-
-                    Thread clientThread = new Thread(new ClientThread(handler, "192.168.1.90", 5000, longitude, latitude, preferenceForClientThread, "rate_store"));
-                    clientThread.start();
-
+                    showRatingPopup();
                 } else {
-
                     Toast.makeText(this, "Please select a restaurant from the list.", Toast.LENGTH_SHORT).show();
-
-                    categoryInputLayout.setVisibility(View.GONE);
-                    optionButton.setText("");
-
                 }
-
             } else {
-
                 Toast.makeText(this, "No restaurants available to select.", Toast.LENGTH_SHORT).show();
-
             }
-
         });
 
-        optionButton.setOnItemClickListener((parent, view, position, id) -> {
+    }
 
-            String selectedRating = (String) parent.getItemAtPosition(position);
+    private void showRatingPopup() {
 
-            Toast.makeText(RateRestaurantsActivity.this, "Rating selected: " + selectedRating, Toast.LENGTH_SHORT).show();
+        LayoutInflater inflater = getLayoutInflater();
+        View popupView = inflater.inflate(R.layout.rating_popup, null);
 
-            optionButton.setError(null);
-        });
+        RatingBar ratingBar = popupView.findViewById(R.id.ratingBar);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setView(popupView)
+
+                .setTitle(getString(R.string.how_would_you_rate_this_restaurant))
+
+                .setPositiveButton("Submit", (dialog, which) -> {
+
+                    float rating = ratingBar.getRating();
+
+                    if (rating == 0) {
+
+                        Toast.makeText(this, "Please select a rating", Toast.LENGTH_SHORT).show();
+
+                    } else {
+
+                        Store selectedStore = adapter.getSelectedStore();
+
+                        @SuppressLint("DefaultLocale") String selectedRating = String.format("%.0f", rating) + "★".repeat((int) rating) + "☆".repeat(5 - (int) rating);
+                        Toast.makeText(this, "Submitting rating for: " + selectedStore.getStoreName() + " with rating: " + selectedRating, Toast.LENGTH_LONG).show();
+
+                        String longitude = ((EditText) findViewById(R.id.longitudeInput)).getText().toString();
+                        String latitude = ((EditText) findViewById(R.id.latitudeInput)).getText().toString();
+
+                        String preferenceForClientThread = selectedStore.getStoreName() + "_" + selectedRating;
+
+                        new Thread(new ClientThread(handler, "192.168.1.90", 5000, longitude, latitude, preferenceForClientThread, "rate_store")).start();
+
+                    }
+
+                })
+
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+
+                .setCancelable(false);
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
 
     }
 
