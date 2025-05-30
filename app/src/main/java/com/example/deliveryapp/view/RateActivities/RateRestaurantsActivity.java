@@ -6,13 +6,15 @@ package com.example.deliveryapp.view.RateActivities;
  **/
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -22,12 +24,12 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.example.deliveryapp.R;
 import com.example.deliveryapp.util.Store;
 import com.example.deliveryapp.util.StoreAdapter;
 import com.example.deliveryapp.view.ClientThread;
-import com.google.android.material.textfield.TextInputLayout;
 
 import android.app.AlertDialog;
 import android.widget.RatingBar;
@@ -41,8 +43,6 @@ public class RateRestaurantsActivity extends AppCompatActivity {
     List<Store> items;
     ListView listView;
     StoreAdapter adapter;
-    AutoCompleteTextView optionButton;
-    TextInputLayout categoryInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +114,6 @@ public class RateRestaurantsActivity extends AppCompatActivity {
                         items.clear();
                         ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
 
-                        categoryInputLayout.setVisibility(View.GONE);
-                        optionButton.setText("");
-
                         break;
 
                     default:
@@ -174,11 +171,14 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
         RatingBar ratingBar = popupView.findViewById(R.id.ratingBar);
 
+        LayerDrawable starsDrawable = (LayerDrawable) ratingBar.getProgressDrawable();
+        Drawable filledStars = starsDrawable.getDrawable(2);
+        Drawable wrappedFilledStars = DrawableCompat.wrap(filledStars);
+        DrawableCompat.setTint(wrappedFilledStars, Color.parseColor("#EE4216"));
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setView(popupView)
-
-                .setTitle(getString(R.string.how_would_you_rate_this_restaurant))
 
                 .setPositiveButton("Submit", (dialog, which) -> {
 
@@ -192,7 +192,7 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
                         Store selectedStore = adapter.getSelectedStore();
 
-                        @SuppressLint("DefaultLocale") String selectedRating = String.format("%.0f", rating) + "★".repeat((int) rating) + "☆".repeat(5 - (int) rating);
+                        @SuppressLint("DefaultLocale") String selectedRating = "★".repeat((int) rating) + "☆".repeat(5 - (int) rating);
                         Toast.makeText(this, "Submitting rating for: " + selectedStore.getStoreName() + " with rating: " + selectedRating, Toast.LENGTH_LONG).show();
 
                         String longitude = ((EditText) findViewById(R.id.longitudeInput)).getText().toString();

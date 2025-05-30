@@ -8,12 +8,13 @@
 
     <TextView
         android:id="@+id/popup_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/how_would_you_rate_this_restaurant"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:paddingBottom="16dp"
         android:textColor="#000000"/>
 
     <RatingBar
@@ -24,5 +25,6 @@
         android:numStars="5"
         android:stepSize="1.0"
         android:rating="0"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp" />
+
 </LinearLayout>

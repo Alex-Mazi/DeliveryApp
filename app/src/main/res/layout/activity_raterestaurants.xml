@@ -49,7 +49,7 @@
         android:id="@+id/longitudeInput"
         android:layout_width="130dp"
         android:layout_height="27dp"
-        android:layout_marginTop="82dp"
+        android:layout_marginTop="102dp"
         android:autofillHints=""
         android:background="@drawable/edit_text_border"
         android:ems="10"
@@ -71,7 +71,7 @@
         android:id="@+id/latitudeInput"
         android:layout_width="130dp"
         android:layout_height="27dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="102dp"
         android:autofillHints=""
         android:background="@drawable/edit_text_border"
         android:ems="10"
@@ -83,24 +83,23 @@
         android:textColor="@android:color/black"
         android:textSize="11sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/submitButton"
         app:layout_constraintHorizontal_bias="0.056"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/longitudeInput" />
+        app:layout_constraintStart_toEndOf="@id/longitudeInput"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <!-- "Submit" Button -->
     <ImageButton
         android:id="@+id/submitButton"
         android:layout_width="88dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/latitudeInput"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.103"
+        app:layout_constraintVertical_bias="0.112"
         app:srcCompat="@drawable/submit_button" />
 
     <!-- "Back" Button -->
@@ -145,13 +144,13 @@
         android:id="@+id/list"
         android:layout_width="382dp"
         android:layout_height="467dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="76dp"
         android:background="@drawable/listview_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/categoryInputLayout"
-        app:layout_constraintVertical_bias="0.343" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.728" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
