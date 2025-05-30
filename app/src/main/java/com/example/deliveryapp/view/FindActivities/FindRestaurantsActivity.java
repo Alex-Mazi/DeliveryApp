@@ -7,6 +7,7 @@ package com.example.deliveryapp.view.FindActivities;
 
 import static com.example.deliveryapp.util.IPConfig.IP_ADDRESS;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,7 +26,7 @@ import com.example.deliveryapp.R;
 import com.example.deliveryapp.util.Store;
 import com.example.deliveryapp.util.StoreAdapter;
 import com.example.deliveryapp.view.ClientThread;
-import com.example.deliveryapp.view.RateActivities.RateRestaurantsActivity;
+import com.example.deliveryapp.view.Purchase.PurchaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class FindRestaurantsActivity extends AppCompatActivity {
         listView = findViewById(R.id.list);
 
         items = new ArrayList<>();
-        StoreAdapter adapter = new StoreAdapter(FindRestaurantsActivity.this, items);
+        adapter = new StoreAdapter(FindRestaurantsActivity.this, items);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -155,6 +156,12 @@ public class FindRestaurantsActivity extends AppCompatActivity {
                     Store selectedStore = adapter.getSelectedStore();
 
                     Toast.makeText(this, "Opening restaurant: " + selectedStore.getStoreName(), Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(this, PurchaseActivity.class);
+                    intent.putExtra("selected_store", selectedStore);
+                    intent.putExtra("latitude",latitude);
+                    intent.putExtra("longitude",longitude);
+                    startActivity(intent);
 
                 } else {
 

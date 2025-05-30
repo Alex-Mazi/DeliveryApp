@@ -28,4 +28,6 @@
     <string name="store_logo">Store logo</string>
     <string name="store_name">Store Name</string>
     <string name="how_would_you_rate_this_restaurant">How would you rate this restaurant?</string>
+    <string name="add_to_cart">ADD TO CART</string>
+    <string name="choose_from_the_options_to_add_to_your_cart">Choose from the options to add to your cart</string>
 </resources>
