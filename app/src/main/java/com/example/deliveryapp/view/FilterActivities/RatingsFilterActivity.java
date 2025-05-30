@@ -5,6 +5,8 @@ package com.example.deliveryapp.view.FilterActivities;
  * @author      Christina Perifana   || p3220160
  **/
 
+import static com.example.deliveryapp.util.IPConfig.IP_ADDRESS;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -151,7 +153,7 @@ public class RatingsFilterActivity extends AppCompatActivity {
                 optionButton.setError("Please select a rating");
             } else {
                 Toast.makeText(this, "Searching for restaurants...", Toast.LENGTH_SHORT).show();
-                Thread clientThread = new Thread(new ClientThread(handler,"192.168.1.90", 5000, longitude,latitude,selectedCategory,"search_ratings"));
+                Thread clientThread = new Thread(new ClientThread(handler,IP_ADDRESS, 5000, longitude,latitude,selectedCategory,"search_ratings"));
                 clientThread.start();
             }
 

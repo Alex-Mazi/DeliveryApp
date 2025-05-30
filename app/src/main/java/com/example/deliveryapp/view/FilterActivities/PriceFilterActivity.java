@@ -5,6 +5,8 @@ package com.example.deliveryapp.view.FilterActivities;
  * @author      Christina Perifana   || p3220160
  **/
 
+import static com.example.deliveryapp.util.IPConfig.IP_ADDRESS;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -75,7 +77,7 @@ public class PriceFilterActivity extends AppCompatActivity {
             } else if (selectedCategory.isEmpty()) {
                 optionButton.setError("Please select a price range");
             } else {
-                Thread clientThread = new Thread(new ClientThread(handler, "192.168.1.84", 5000, longitude,latitude,selectedCategory,"search_price_range"));
+                Thread clientThread = new Thread(new ClientThread(handler, IP_ADDRESS, 5000, longitude,latitude,selectedCategory,"search_price_range"));
                 clientThread.start();
             }
 
