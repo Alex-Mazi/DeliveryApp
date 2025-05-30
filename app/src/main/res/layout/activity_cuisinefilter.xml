@@ -86,33 +86,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/longitudeInput" />
 
-    <!-- "Cuisine Options" Dropdown List -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/categoryInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="163dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="77dp"
+    <!-- "Cuisine Options" Button -->
+    <EditText
+        android:id="@+id/optionButton"
+        android:layout_width="130dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="96dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:fontFamily="sans-serif"
         android:hint="@string/cuisine_options"
-        app:boxStrokeColor="@color/box_stroke_color"
-        app:endIconMode="dropdown_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.58"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
-
-        <AutoCompleteTextView
-            android:id="@+id/categoryAutoComplete"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:inputType="none"
-            android:padding="0dp"
-            android:textColor="@android:color/black"
-            android:textColorLink="@android:color/black"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:inputType="textNoSuggestions"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/submitButton"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toEndOf="@id/latitudeInput"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <!-- "Submit" Button -->
     <ImageButton
@@ -171,12 +163,13 @@
         android:id="@+id/list"
         android:layout_width="387dp"
         android:layout_height="474dp"
+        android:layout_marginBottom="52dp"
         android:background="@drawable/listview_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/categoryInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/optionButton"
         app:layout_constraintVertical_bias="0.35" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

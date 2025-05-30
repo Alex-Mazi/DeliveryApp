@@ -77,6 +77,8 @@ public class ClientThread implements Runnable {
 
                 case "search_price_range":
 
+                case "search_food_preference":
+
                     requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + preference, action, jobID);
                     outObj.writeObject(requestWrapper);
                     outObj.flush();
