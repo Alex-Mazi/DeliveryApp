@@ -35,4 +35,7 @@
     <string name="product_name">Product Name</string>
     <string name="minus_button">Decrease quantity</string>
     <string name="plus_button">Increase quantity</string>
+    <string name="description_placeholder">Description: N/A</string>
+    <string name="avg_rating_placeholder">Avg Rating: N/A</string>
+    <string name="price_range_placeholder">Price Range: N/A</string>
 </resources>

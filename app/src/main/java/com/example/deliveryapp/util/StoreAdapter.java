@@ -5,6 +5,7 @@ package com.example.deliveryapp.util;
  * @author      Christina Perifana   || p3220160
  **/
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,20 +31,37 @@ public class StoreAdapter extends ArrayAdapter<Store> {
         super(context, 0, stores);
     }
 
+    @SuppressLint("DefaultLocale")
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         Store store = getItem(position);
 
+        ViewHolder holder;
+
         if (convertView == null) {
+
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.store_list_item, parent, false);
+            holder = new ViewHolder();
+            holder.logoImageView = convertView.findViewById(R.id.storeLogo);
+            holder.nameTextView = convertView.findViewById(R.id.storeName);
+
+            holder.descriptionTextView = convertView.findViewById(R.id.storeDescription);
+            holder.avgRatingTextView = convertView.findViewById(R.id.storeAvgRating);
+            holder.priceRangeTextView = convertView.findViewById(R.id.storePriceRange);
+            convertView.setTag(holder);
+
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        ImageView logoImageView = convertView.findViewById(R.id.storeLogo);
-        TextView nameTextView = convertView.findViewById(R.id.storeName);
-
         assert store != null;
+        holder.nameTextView.setText(store.getStoreName());
+
+        @SuppressLint("CutPasteId") ImageView logoImageView = convertView.findViewById(R.id.storeLogo);
+        @SuppressLint("CutPasteId") TextView nameTextView = convertView.findViewById(R.id.storeName);
+
         nameTextView.setText(store.getStoreName());
 
         byte[] logoBytes = store.getStoreLogoBytes();
@@ -62,6 +80,10 @@ public class StoreAdapter extends ArrayAdapter<Store> {
             logoImageView.setImageResource(R.drawable.logo_transparent);
         }
 
+        holder.descriptionTextView.setText(String.format("Category: %s", store.getFoodCategory()));
+        holder.avgRatingTextView.setText(String.format("Avg Rating: %.1f ★", store.getStars()));
+        holder.priceRangeTextView.setText(String.format("Price Range: %s", store.getStorePriceRange()));
+
         if (store.equals(selectedStore)) {
             convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.box_stroke_color));
         } else {
@@ -70,6 +92,15 @@ public class StoreAdapter extends ArrayAdapter<Store> {
 
         return convertView;
 
+    }
+
+
+    static class ViewHolder {
+        ImageView logoImageView;
+        TextView nameTextView;
+        TextView descriptionTextView;
+        TextView avgRatingTextView;
+        TextView priceRangeTextView;
     }
 
     public void setSelectedStore(Store store) {
