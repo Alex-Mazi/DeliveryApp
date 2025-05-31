@@ -38,4 +38,7 @@
     <string name="description_placeholder">Description: N/A</string>
     <string name="avg_rating_placeholder">Avg Rating: N/A</string>
     <string name="price_range_placeholder">Price Range: N/A</string>
+    <string name="cancel">CANCEL</string>
+    <string name="buy">BUY</string>
+    <string name="items_added_to_cart_successfully">Items added to cart successfully!</string>
 </resources>

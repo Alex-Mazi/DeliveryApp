@@ -6,8 +6,11 @@ package com.example.deliveryapp.view.PurchaseActivities;
  **/
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,21 +107,40 @@ public class PurchaseActivity extends AppCompatActivity {
 
                     } else {
 
-                        StringBuilder cartSummary = new StringBuilder("Items in cart:\n");
-
+                        StringBuilder cartSummary = new StringBuilder();
                         for (Product p : productsInCart) {
-
-                            cartSummary.append(p.getProductName())
-                                    .append(" x ")
-                                    .append(p.getQuantity())
-                                    .append(" = $")
-                                    .append(String.format("%.2f", p.getPrice() * p.getQuantity()))
+                            cartSummary.append("- ")
+                                    .append(p.getProductName())
                                     .append("\n");
                         }
 
-                        cartSummary.append(String.format("Total: $%.2f", totalCost));
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PurchaseActivity.this);
+                        LayoutInflater inflater = this.getLayoutInflater();
+                        View dialogView = inflater.inflate(R.layout.dialog_cart_summary, null);
+                        dialogBuilder.setView(dialogView);
 
-                        Toast.makeText(PurchaseActivity.this, cartSummary.toString(), Toast.LENGTH_LONG).show();
+                        TextView cartSummaryTextView = dialogView.findViewById(R.id.dialog_cart_items_summary);
+                        cartSummaryTextView.setText(cartSummary.toString().trim());
+
+                        AppCompatButton cancelButton = dialogView.findViewById(R.id.dialog_cancel_button);
+                        AppCompatButton buyButton = dialogView.findViewById(R.id.dialog_buy_button);
+
+                        AlertDialog alertDialog = dialogBuilder.create();
+                        alertDialog.setCancelable(false);
+
+                        cancelButton.setOnClickListener(y -> {
+                            alertDialog.dismiss();
+                        });
+
+                        double finalTotalCost = totalCost;
+                        buyButton.setOnClickListener(k -> {
+
+                            Toast.makeText(PurchaseActivity.this, "Proceeding to checkout with total: $" + String.format("%.2f", finalTotalCost), Toast.LENGTH_LONG).show();
+                            alertDialog.dismiss();
+
+                        });
+
+                        alertDialog.show();
 
                     }
 
