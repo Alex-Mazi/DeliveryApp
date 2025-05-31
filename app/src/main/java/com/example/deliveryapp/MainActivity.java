@@ -17,22 +17,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Button clientButton = findViewById(R.id.ClientLogin);
 
         clientButton.setOnClickListener(v -> login("client"));
+
     }
 
     public void login(String userType) {
+
         Intent intent;
+
         if (userType.equals("client")) {
             intent = new Intent(this, ClientMenuActivity.class);
         } else {
             return;
         }
+
         startActivity(intent);
+
     }
 
 }

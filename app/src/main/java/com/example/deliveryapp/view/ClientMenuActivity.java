@@ -37,7 +37,9 @@ public class ClientMenuActivity extends AppCompatActivity {
     }
 
     public void go(String option) {
+
         Intent intent;
+
         switch (option) {
             case "find":
                 intent = new Intent(this, FindRestaurantsActivity.class);
@@ -51,7 +53,9 @@ public class ClientMenuActivity extends AppCompatActivity {
             default:
                 return;
         }
+
         startActivity(intent);
+
     }
 
 }
