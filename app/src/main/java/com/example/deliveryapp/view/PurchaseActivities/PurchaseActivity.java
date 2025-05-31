@@ -1,11 +1,9 @@
-package com.example.deliveryapp.view.Purchase;
+package com.example.deliveryapp.view.PurchaseActivities;
 
 /**
  * @author      Alexandra-Maria Mazi || p3220111
  * @author      Christina Perifana   || p3220160
  **/
-
-import static com.example.deliveryapp.util.IPConfig.IP_ADDRESS;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

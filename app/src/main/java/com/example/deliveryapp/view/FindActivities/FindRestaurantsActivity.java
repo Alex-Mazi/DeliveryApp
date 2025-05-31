@@ -26,7 +26,7 @@ import com.example.deliveryapp.R;
 import com.example.deliveryapp.util.Store;
 import com.example.deliveryapp.util.StoreAdapter;
 import com.example.deliveryapp.view.ClientThread;
-import com.example.deliveryapp.view.Purchase.PurchaseActivity;
+import com.example.deliveryapp.view.PurchaseActivities.PurchaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;

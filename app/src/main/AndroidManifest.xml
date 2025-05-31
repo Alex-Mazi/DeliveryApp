@@ -13,7 +13,7 @@
         android:theme="@style/Theme.DeliveryApp">
 
         <activity
-            android:name=".view.Purchase.PurchaseActivity"
+            android:name=".view.PurchaseActivities.PurchaseActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 

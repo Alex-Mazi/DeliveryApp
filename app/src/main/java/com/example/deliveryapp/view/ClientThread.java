@@ -77,8 +77,6 @@ public class ClientThread implements Runnable {
 
                 case "search_price_range":
 
-                case "search_food_preference":
-
                     requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + preference, action, jobID);
                     outObj.writeObject(requestWrapper);
                     outObj.flush();
@@ -164,7 +162,6 @@ public class ClientThread implements Runnable {
 
             ActionWrapper w = (ActionWrapper) receivedObject;
 
-            Message message;
             if ("final_results".equalsIgnoreCase(w.getAction())) {
 
                 Object resObj = w.getObject();
@@ -174,9 +171,9 @@ public class ClientThread implements Runnable {
                     try {
 
                         List<Store> finalResults = (List<Store>) resObj;
-                        message = Message.obtain();
+                        Message message = Message.obtain();
 
-                        if (!finalResults.isEmpty()) {
+                        if (finalResults != null && !finalResults.isEmpty()) {
 
                             message.what = MESSAGE_SUCCESS;
                             message.obj = finalResults;
@@ -211,16 +208,6 @@ public class ClientThread implements Runnable {
                 String errorMessage = (w.getObject() instanceof String) ? (String) w.getObject() : "Server error during search.";
                 sendErrorMessage(errorMessage);
 
-            } else if ("confirmation_message".equalsIgnoreCase(w.getAction())) {
-
-                Object resObj = w.getObject();
-
-                message = Message.obtain();
-                message.what = MESSAGE_SUCCESS;
-                message.obj = (String) resObj;
-                Log.d(TAG, "Completed");
-                handler.sendMessage(message);
-
             } else {
 
                 Log.e(TAG, "Unexpected action from server for store list search: " + w.getAction());
@@ -236,6 +223,31 @@ public class ClientThread implements Runnable {
         }
 
     }
+
+    private void handleGenericResponse(Object receivedObject, String successMessage) {
+
+        if (receivedObject instanceof ActionWrapper) {
+
+            ActionWrapper w = (ActionWrapper) receivedObject;
+            String serverMessage = w.getObject() instanceof String ? (String) w.getObject() : "Operation completed.";
+
+            if ("success".equalsIgnoreCase(w.getAction())) {
+                sendMessage(successMessage + " Server says: " + serverMessage);
+            } else if ("error".equalsIgnoreCase(w.getAction())) {
+                sendErrorMessage("Server error: " + serverMessage);
+            } else {
+                sendMessage("Server responded: " + serverMessage);
+            }
+
+        } else {
+
+            Log.e(TAG, "Received non-ActionWrapper object for generic response: " + (receivedObject != null ? receivedObject.getClass().getName() : "null"));
+            sendErrorMessage("Server sent an unreadable response for action.");
+
+        }
+
+    }
+
 
     private String mapRatingPreference(String pref) {
 
@@ -257,6 +269,16 @@ public class ClientThread implements Runnable {
         errorMsg.obj = message;
 
         handler.sendMessage(errorMsg);
+
+    }
+
+    private void sendMessage(Object obj) {
+
+        Message msg = Message.obtain();
+        msg.what = ClientThread.MESSAGE_GENERIC_RESPONSE;
+        msg.obj = obj;
+
+        handler.sendMessage(msg);
 
     }
 
