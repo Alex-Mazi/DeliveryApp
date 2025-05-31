@@ -30,4 +30,9 @@
     <string name="how_would_you_rate_this_restaurant">How would you rate this restaurant?</string>
     <string name="add_to_cart">ADD TO CART</string>
     <string name="choose_from_the_options_to_add_to_your_cart">Choose from the options to add to your cart</string>
+    <string name="_0">0</string>
+    <string name="price_0_00">Price: $0.00</string>
+    <string name="product_name">Product Name</string>
+    <string name="minus_button">Decrease quantity</string>
+    <string name="plus_button">Increase quantity</string>
 </resources>

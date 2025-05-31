@@ -26,6 +26,7 @@ public class Product implements Serializable {
     private boolean availability;
     private boolean client_availability;
     private int productSales = 0;
+    private int quantity;
 
     public Product(String ProductName, String ProductType, int AvailableAmount, double Price) {
         this.ProductName = ProductName;
@@ -33,6 +34,7 @@ public class Product implements Serializable {
         this.AvailableAmount = AvailableAmount;
         this.Price = Price;
         this.client_availability = true;
+        this.quantity = 0;
     }
 
     public String getProductName() {
@@ -81,6 +83,10 @@ public class Product implements Serializable {
     public void setProductSales(int productSales) { this.productSales += productSales; }
 
     public int getProductSales() { return this.productSales; }
+
+    public int getQuantity() { return quantity; }
+
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 
     @Override
     public String toString() {

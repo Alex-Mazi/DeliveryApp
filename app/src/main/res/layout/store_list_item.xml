@@ -16,13 +16,12 @@
         android:contentDescription="@string/store_logo"
         app:shapeAppearanceOverlay="@style/RoundImageView" />
 
-    <!-- Container to position text vertically -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:gravity="top|start"> <!-- aligns child to top-left -->
+        android:gravity="top|start">
 
         <TextView
             android:id="@+id/storeName"
