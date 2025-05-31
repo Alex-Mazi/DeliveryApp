@@ -94,7 +94,7 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
                         } else {
 
-                            Toast.makeText(RateRestaurantsActivity.this, "Failed to retrieve restaurants: Invalid data type.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RateRestaurantsActivity.this, (String) msg.obj, Toast.LENGTH_SHORT).show();
 
                         }
 

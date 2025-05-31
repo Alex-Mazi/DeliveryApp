@@ -164,6 +164,7 @@ public class ClientThread implements Runnable {
 
             ActionWrapper w = (ActionWrapper) receivedObject;
 
+            Message message;
             if ("final_results".equalsIgnoreCase(w.getAction())) {
 
                 Object resObj = w.getObject();
@@ -173,7 +174,7 @@ public class ClientThread implements Runnable {
                     try {
 
                         List<Store> finalResults = (List<Store>) resObj;
-                        Message message = Message.obtain();
+                        message = Message.obtain();
 
                         if (!finalResults.isEmpty()) {
 
@@ -209,6 +210,16 @@ public class ClientThread implements Runnable {
 
                 String errorMessage = (w.getObject() instanceof String) ? (String) w.getObject() : "Server error during search.";
                 sendErrorMessage(errorMessage);
+
+            } else if ("confirmation_message".equalsIgnoreCase(w.getAction())) {
+
+                Object resObj = w.getObject();
+
+                message = Message.obtain();
+                message.what = MESSAGE_SUCCESS;
+                message.obj = (String) resObj;
+                Log.d(TAG, "Completed");
+                handler.sendMessage(message);
 
             } else {
 

@@ -32,6 +32,5 @@ public class ActionWrapper implements Serializable {
     }
 
     public String getAction() { return action; }
-    public String getJobID(){ return jobID;}
 
 }
