@@ -5,6 +5,8 @@ package com.example.deliveryapp.view.RateActivities;
  * @author      Christina Perifana   || p3220160
  **/
 
+import static com.example.deliveryapp.util.IPConfig.IP_ADDRESS;
+
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -142,7 +144,7 @@ public class RateRestaurantsActivity extends AppCompatActivity {
                 longitudeInput.setError("Necessary input");
             } else {
                 Toast.makeText(this, "Searching for restaurants...", Toast.LENGTH_SHORT).show();
-                Thread clientThread = new Thread(new ClientThread(handler,"192.168.56.1", 5000, longitude,latitude,null,"showcase_stores"));
+                Thread clientThread = new Thread(new ClientThread(handler,IP_ADDRESS, 5000, longitude,latitude,null,"showcase_stores"));
                 clientThread.start();
             }
 
@@ -200,7 +202,7 @@ public class RateRestaurantsActivity extends AppCompatActivity {
 
                         String preferenceForClientThread = selectedStore.getStoreName() + "_" + selectedRating;
 
-                        new Thread(new ClientThread(handler, "192.168.56.1", 5000, longitude, latitude, preferenceForClientThread, "rate_store")).start();
+                        new Thread(new ClientThread(handler, IP_ADDRESS, 5000, longitude, latitude, preferenceForClientThread, "rate_store")).start();
 
                     }
 
