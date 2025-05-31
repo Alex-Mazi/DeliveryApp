@@ -5,10 +5,14 @@ package com.example.deliveryapp.view.PurchaseActivities;
  * @author      Christina Perifana   || p3220160
  **/
 
+import static com.example.deliveryapp.util.IPConfig.IP_ADDRESS;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
@@ -17,15 +21,20 @@ import android.widget.Toast;
 
 import com.example.deliveryapp.R;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.deliveryapp.util.Product;
 import com.example.deliveryapp.util.ProductAdapter;
+import com.example.deliveryapp.util.PurchaseDetails;
 import com.example.deliveryapp.util.Store;
+import com.example.deliveryapp.view.ClientThread;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PurchaseActivity extends AppCompatActivity {
 
@@ -52,6 +61,59 @@ public class PurchaseActivity extends AppCompatActivity {
         items = new ArrayList<>();
         adapter = new ProductAdapter(PurchaseActivity.this, items);
         listView.setAdapter(adapter);
+
+        handler = new Handler(Looper.getMainLooper()) {
+
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+
+                switch (msg.what) {
+
+                    case ClientThread.MESSAGE_SUCCESS:
+
+                        if (msg.obj instanceof String) {
+
+                            Toast.makeText(PurchaseActivity.this, (String) msg.obj, Toast.LENGTH_LONG).show();
+
+                        } else {
+
+                            Toast.makeText(PurchaseActivity.this, "Operation successful!", Toast.LENGTH_SHORT).show();
+
+                        }
+
+
+                        for (Product p : items) {
+                            p.setQuantity(0);
+                        }
+
+                        adapter.notifyDataSetChanged();
+
+                        break;
+
+                    case ClientThread.MESSAGE_ERROR:
+
+                        String errorMsg = (String) msg.obj;
+                        Toast.makeText(PurchaseActivity.this, "Error: " + errorMsg, Toast.LENGTH_LONG).show();
+
+                        break;
+
+                    case ClientThread.MESSAGE_NO_RESULTS:
+
+                        Toast.makeText(PurchaseActivity.this, "No results found.", Toast.LENGTH_SHORT).show();
+
+                        break;
+
+                    case ClientThread.MESSAGE_GENERIC_RESPONSE:
+
+                        Toast.makeText(PurchaseActivity.this, (String) msg.obj, Toast.LENGTH_LONG).show();
+
+                        break;
+
+                }
+
+            }
+
+        };
 
         if (getIntent().hasExtra("selected_store")) {
 
@@ -89,30 +151,34 @@ public class PurchaseActivity extends AppCompatActivity {
 
                 addButton.setOnClickListener(v -> {
 
-                    List<Product> productsInCart = new ArrayList<>();
+                    Map<String, Integer> productsToPurchaseMap = new HashMap<>();
                     double totalCost = 0.0;
 
                     for (Product product : items) {
 
                         if (product.getQuantity() > 0) {
-                            productsInCart.add(product);
+                            productsToPurchaseMap.put(product.getProductName(), product.getQuantity());
                             totalCost += (product.getPrice() * product.getQuantity());
                         }
 
                     }
 
-                    if (productsInCart.isEmpty()) {
+                    if (productsToPurchaseMap.isEmpty()) {
 
                         Toast.makeText(PurchaseActivity.this, "Your cart is empty. Please add some items.", Toast.LENGTH_SHORT).show();
 
                     } else {
 
                         StringBuilder cartSummary = new StringBuilder();
-                        for (Product p : productsInCart) {
+
+                        for (Map.Entry<String, Integer> entry : productsToPurchaseMap.entrySet()) {
+
                             cartSummary.append("- ")
-                                    .append(p.getProductName())
+                                    .append(entry.getKey())
                                     .append("\n");
                         }
+
+                        cartSummary.append(String.format("\nTotal: $%.2f", totalCost));
 
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PurchaseActivity.this);
                         LayoutInflater inflater = this.getLayoutInflater();
@@ -132,11 +198,33 @@ public class PurchaseActivity extends AppCompatActivity {
                             alertDialog.dismiss();
                         });
 
-                        double finalTotalCost = totalCost;
+                        final String finalStoreName = receivedStore.getStoreName();
+                        final double finalStoreLatitude = receivedStore.getLatitude();
+                        final double finalStoreLongitude = receivedStore.getLongitude();
+                        final Map<String, Integer> finalProductsToPurchaseMap = productsToPurchaseMap;
+
                         buyButton.setOnClickListener(k -> {
 
-                            Toast.makeText(PurchaseActivity.this, "Proceeding to checkout with total: $" + String.format("%.2f", finalTotalCost), Toast.LENGTH_LONG).show();
                             alertDialog.dismiss();
+
+                            PurchaseDetails purchaseDetails = new PurchaseDetails(
+                                    finalStoreLongitude,
+                                    finalStoreLatitude,
+                                    finalStoreName,
+                                    finalProductsToPurchaseMap
+                            );
+
+                            Toast.makeText(PurchaseActivity.this, "Processing purchase...", Toast.LENGTH_SHORT).show();
+
+                            new Thread(new ClientThread(
+                                    handler,
+                                    IP_ADDRESS,
+                                    5000,
+                                    null,
+                                    null,
+                                    purchaseDetails,
+                                    "purchase_product"
+                            )).start();
 
                         });
 

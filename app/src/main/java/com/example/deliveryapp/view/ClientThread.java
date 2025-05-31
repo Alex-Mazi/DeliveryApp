@@ -27,14 +27,14 @@ public class ClientThread implements Runnable {
     private String action;
     private String longitude;
     private String latitude;
-    private String preference;
+    private Object preference;
 
     public static final int MESSAGE_SUCCESS = 1;
     public static final int MESSAGE_ERROR = 0;
     public static final int MESSAGE_NO_RESULTS = 2;
     public static final int MESSAGE_GENERIC_RESPONSE = 3;
 
-    public ClientThread(Handler handler, String host, int port, String longitude, String latitude, String preference, String action) {
+    public ClientThread(Handler handler, String host, int port, String longitude, String latitude, Object preference, String action) {
         this.handler = handler;
         this.host = host;
         this.port = port;
@@ -77,7 +77,7 @@ public class ClientThread implements Runnable {
 
                 case "search_price_range":
 
-                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + preference, action, jobID);
+                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + (String) preference, action, jobID);
                     outObj.writeObject(requestWrapper);
                     outObj.flush();
 
@@ -88,7 +88,7 @@ public class ClientThread implements Runnable {
 
                 case "search_ratings":
 
-                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + mapRatingPreference(this.preference), action, jobID);
+                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + mapRatingPreference((String) this.preference), action, jobID);
                     outObj.writeObject(requestWrapper);
                     outObj.flush();
 
@@ -99,21 +99,24 @@ public class ClientThread implements Runnable {
 
                 case "purchase_product":
 
-                    String storeName = "some_store_name";
-                    String productName = "some_product_name";
+                    if (this.preference instanceof PurchaseDetails) {
 
-                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + storeName + "_" + productName, action, jobID);
-                    outObj.writeObject(requestWrapper);
-                    outObj.flush();
+                        requestWrapper = new ActionWrapper(this.preference, action, jobID);
+                        outObj.writeObject(requestWrapper);
+                        outObj.flush();
+                        receivedResponse = inObj.readObject();
 
-                    receivedResponse = inObj.readObject();
-                    handleStoreListResponse(receivedResponse);
 
-                    break;
+                        handleGenericResponse(receivedResponse);
+
+                    } else {
+                        Log.e(TAG, "Invalid preference type for purchase_product action. Expected PurchaseDetails.");
+                        sendErrorMessage("Invalid purchase data provided.");
+                    }
 
                 case "rate_store":
 
-                    String[] parts = preference.split("_",2);
+                    String[] parts = ((String) preference).split("_",2);
 
                     requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + parts[0] + "_" + mapRatingPreference(parts[1]), action, jobID);
                     outObj.writeObject(requestWrapper);
@@ -224,7 +227,7 @@ public class ClientThread implements Runnable {
 
     }
 
-    private void handleGenericResponse(Object receivedObject, String successMessage) {
+    private void handleGenericResponse(Object receivedObject) {
 
         if (receivedObject instanceof ActionWrapper) {
 
@@ -232,11 +235,20 @@ public class ClientThread implements Runnable {
             String serverMessage = w.getObject() instanceof String ? (String) w.getObject() : "Operation completed.";
 
             if ("success".equalsIgnoreCase(w.getAction())) {
-                sendMessage(successMessage + " Server says: " + serverMessage);
+
+                Message successMsg = Message.obtain();
+                successMsg.what = MESSAGE_SUCCESS;
+                successMsg.obj = "Purchase completed!" + " " + serverMessage;
+                handler.sendMessage(successMsg);
+
             } else if ("error".equalsIgnoreCase(w.getAction())) {
+
                 sendErrorMessage("Server error: " + serverMessage);
+
             } else {
-                sendMessage("Server responded: " + serverMessage);
+
+                sendMessage(serverMessage);
+
             }
 
         } else {
@@ -247,7 +259,6 @@ public class ClientThread implements Runnable {
         }
 
     }
-
 
     private String mapRatingPreference(String pref) {
 
