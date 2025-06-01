@@ -9,6 +9,7 @@ import static com.example.deliveryapp.util.IPConfig.IP_ADDRESS;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -50,6 +51,7 @@ public class PurchaseActivity extends AppCompatActivity {
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase);
 
@@ -105,7 +107,12 @@ public class PurchaseActivity extends AppCompatActivity {
 
                     case ClientThread.MESSAGE_GENERIC_RESPONSE:
 
-                        Toast.makeText(PurchaseActivity.this, (String) msg.obj, Toast.LENGTH_LONG).show();
+                        if (((String) msg.obj).startsWith("All items")){
+                            Intent i = new Intent(PurchaseActivity.this, DeliveryActivity.class);
+                            startActivity(i);
+                        } else {
+                            Toast.makeText(PurchaseActivity.this, (String) msg.obj, Toast.LENGTH_LONG).show();
+                        }
 
                         break;
 

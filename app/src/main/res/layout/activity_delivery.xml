@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background3"
+    android:fitsSystemWindows="true"
+    tools:context=".view.PurchaseActivities.DeliveryActivity">
+
+    <androidx.constraintlayout.widget.Barrier
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left" />
+
+    <!-- "Success" Text -->
+    <TextView
+        android:id="@+id/success"
+        android:layout_width="260dp"
+        android:layout_height="42dp"
+        android:fontFamily="@font/modak"
+        android:text="@string/success"
+        android:textAlignment="textStart"
+        android:textColor="#ee4216"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- "Your order will be with you shortly" Text -->
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="285dp"
+        android:layout_height="39dp"
+        android:fontFamily="@font/gentium_plus"
+        android:text="@string/your_order_will_be_with_you_shortly"
+        android:textAlignment="textStart"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/success" />
+
+
+    <!-- "Back" Button -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/whiteBoxContainer"
+        android:layout_width="316dp"
+        android:layout_height="336dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/rounded_white_background"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.502">
+
+        <TextView
+            android:id="@+id/deliveryMessageCombined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/gentium_plus"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="The store got your order and will deliver your food in 30 minutes!" />
+
+        <TextView
+            android:id="@+id/bonAppetit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:fontFamily="@font/gentium_plus"
+            android:text="@string/bon_appetit"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryMessageCombined" />
+
+        <TextView
+            android:id="@+id/receiptSent"
+            android:layout_width="250dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/gentium_plus"
+            android:text="@string/receipt_sent_to_email"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bonAppetit"
+            app:layout_constraintVertical_bias="0.53" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/back"
+        android:layout_width="135dp"
+        android:layout_height="55dp"
+        android:alpha="1"
+        android:background="@drawable/rounded_button"
+        android:text="@string/back"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.955" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

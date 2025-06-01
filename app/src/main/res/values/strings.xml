@@ -41,4 +41,11 @@
     <string name="cancel">CANCEL</string>
     <string name="buy">BUY</string>
     <string name="items_added_to_cart_successfully">Items added to cart successfully!</string>
+    <string name="success">SUCCESS</string>
+    <string name="your_order_will_be_with_you_shortly">Your order will be with you shortly</string>
+    <string name="delivery_message_part1">The store got your order and will deliver your food in</string>
+    <string name="delivery_message_part2">minutes!</string>
+    <string name="bon_appetit">Bon Appetit!</string>
+    <string name="receipt_sent_to_email">Your receipt has been sent to your email</string>
+    <string name="delivery_message_with_minutes">The store got your order and will deliver your food in %d minutes!</string>
 </resources>
