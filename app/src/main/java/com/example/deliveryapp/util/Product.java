@@ -33,7 +33,6 @@ public class Product implements Serializable {
         this.ProductType = ProductType;
         this.AvailableAmount = AvailableAmount;
         this.Price = Price;
-        this.client_availability = true;
         this.quantity = 0;
 
         this.availability = (AvailableAmount > 0);

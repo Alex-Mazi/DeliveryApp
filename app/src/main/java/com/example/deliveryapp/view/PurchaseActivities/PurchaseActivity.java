@@ -146,18 +146,24 @@ public class PurchaseActivity extends AppCompatActivity {
                 if (productsFromStore != null && !productsFromStore.isEmpty()) {
 
                     items.clear();
+                    int availableProductsCount = 0;
 
                     for (Product p : productsFromStore) {
 
-                        p.setQuantity(0);
+                        if (!p.getClientAvailability()) {
+                            p.setQuantity(0);
+                            items.add(p);
+                            availableProductsCount++;
+                        }
 
                     }
 
-                    items.addAll(productsFromStore);
                     adapter.notifyDataSetChanged();
 
-                    if (productsFromStore.size() == 1){
-                        Toast.makeText(this, "1 product loaded!", Toast.LENGTH_SHORT).show();
+                    if (availableProductsCount == 0) {
+                        Toast.makeText(this, "No available products for this store.", Toast.LENGTH_SHORT).show();
+                    } else if (availableProductsCount == 1){
+                        Toast.makeText(this, productsFromStore.size() + "1 product loaded!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, productsFromStore.size() + " products loaded!", Toast.LENGTH_SHORT).show();
                     }
