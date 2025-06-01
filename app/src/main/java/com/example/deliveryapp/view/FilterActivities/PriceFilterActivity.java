@@ -5,6 +5,7 @@ package com.example.deliveryapp.view.FilterActivities;
  * @author      Christina Perifana   || p3220160
  **/
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,6 +26,7 @@ import com.example.deliveryapp.R;
 import com.example.deliveryapp.util.Store;
 import com.example.deliveryapp.util.StoreAdapter;
 import com.example.deliveryapp.view.ClientThread;
+import com.example.deliveryapp.view.PurchaseActivities.PurchaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,6 +152,39 @@ public class PriceFilterActivity extends AppCompatActivity {
         });
 
         backButton.setOnClickListener(v -> finish());
+
+        selectButton.setOnClickListener(v -> {
+
+            if (!items.isEmpty()) {
+
+                if (adapter.isItemSelected()) {
+
+                    String longitude = longitudeInput.getText().toString();
+                    String latitude = latitudeInput.getText().toString();
+
+                    Store selectedStore = adapter.getSelectedStore();
+
+                    Toast.makeText(this, "Opening restaurant: " + selectedStore.getStoreName(), Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(this, PurchaseActivity.class);
+                    intent.putExtra("selected_store", selectedStore);
+                    intent.putExtra("latitude",latitude);
+                    intent.putExtra("longitude",longitude);
+                    startActivity(intent);
+
+                } else {
+
+                    Toast.makeText(this, "Please select a restaurant from the list.", Toast.LENGTH_SHORT).show();
+
+                }
+
+            } else {
+
+                Toast.makeText(this, "No restaurants available to select.", Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
 
     }
 

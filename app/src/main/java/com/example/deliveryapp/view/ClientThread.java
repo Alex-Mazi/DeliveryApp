@@ -142,7 +142,7 @@ public class ClientThread implements Runnable {
         } catch (ClassNotFoundException e) {
             Log.e(TAG, "Class not found error during deserialization: " + e.getMessage(), e);
             sendErrorMessage("Data error: " + e.getMessage());
-        } catch (Exception e) { // Catch any other unexpected exceptions
+        } catch (Exception e) {
             Log.e(TAG, "An unexpected error occurred: " + e.getMessage(), e);
             sendErrorMessage("An unexpected error occurred: " + e.getMessage());
         } finally {
@@ -165,16 +165,19 @@ public class ClientThread implements Runnable {
 
             ActionWrapper w = (ActionWrapper) receivedObject;
 
+            Message message;
+            Object resObj = null;
+
             if ("final_results".equalsIgnoreCase(w.getAction())) {
 
-                Object resObj = w.getObject();
+                resObj = w.getObject();
 
                 if (resObj instanceof List) {
 
                     try {
 
                         List<Store> finalResults = (List<Store>) resObj;
-                        Message message = Message.obtain();
+                        message = Message.obtain();
 
                         if (finalResults != null && !finalResults.isEmpty()) {
 
@@ -205,6 +208,14 @@ public class ClientThread implements Runnable {
                     sendErrorMessage("Server response format error for search: Expected List<Store>.");
 
                 }
+
+            } else if ("confirmation_message".equalsIgnoreCase(w.getAction())) {
+
+                message = Message.obtain();
+                message.what = MESSAGE_SUCCESS;
+                message.obj = w.getObject();;
+
+                handler.sendMessage(message);
 
             } else if ("error".equalsIgnoreCase(w.getAction())) {
 
