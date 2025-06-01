@@ -85,7 +85,12 @@ public class RatingsFilterActivity extends AppCompatActivity {
                             items.clear();
                             items.addAll(fetchedItems);
                             ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
-                            Toast.makeText(RatingsFilterActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+
+                            if (items.size() == 1){
+                                Toast.makeText(RatingsFilterActivity.this, "1 restaurant found!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(RatingsFilterActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+                            }
 
                         } else {
 

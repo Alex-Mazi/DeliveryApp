@@ -83,7 +83,12 @@ public class CuisineFilterActivity extends AppCompatActivity {
                             items.clear();
                             items.addAll(fetchedItems);
                             ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
-                            Toast.makeText(CuisineFilterActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+
+                            if (items.size() == 1){
+                                Toast.makeText(CuisineFilterActivity.this, "1 restaurant found!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(CuisineFilterActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+                            }
 
                         } else {
 

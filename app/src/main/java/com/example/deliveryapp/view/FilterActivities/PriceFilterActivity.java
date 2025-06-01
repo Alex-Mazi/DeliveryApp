@@ -83,7 +83,12 @@ public class PriceFilterActivity extends AppCompatActivity {
                             items.clear();
                             items.addAll(fetchedItems);
                             ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
-                            Toast.makeText(PriceFilterActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+
+                            if (items.size() == 1){
+                                Toast.makeText(PriceFilterActivity.this, "1 restaurant found!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(PriceFilterActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+                            }
 
                         } else {
 

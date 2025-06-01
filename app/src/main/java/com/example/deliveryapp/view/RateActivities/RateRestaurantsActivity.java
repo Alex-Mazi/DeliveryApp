@@ -90,7 +90,12 @@ public class RateRestaurantsActivity extends AppCompatActivity {
                             items.clear();
                             items.addAll(fetchedItems);
                             ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
-                            Toast.makeText(RateRestaurantsActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+
+                            if (items.size() == 1){
+                                Toast.makeText(RateRestaurantsActivity.this, "1 restaurant found!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(RateRestaurantsActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+                            }
 
                         } else {
 

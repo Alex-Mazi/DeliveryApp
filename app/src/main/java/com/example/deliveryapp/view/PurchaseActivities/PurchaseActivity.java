@@ -156,7 +156,11 @@ public class PurchaseActivity extends AppCompatActivity {
                     items.addAll(productsFromStore);
                     adapter.notifyDataSetChanged();
 
-                    Toast.makeText(this, productsFromStore.size() + " products loaded!", Toast.LENGTH_SHORT).show();
+                    if (productsFromStore.size() == 1){
+                        Toast.makeText(this, "1 product loaded!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, productsFromStore.size() + " products loaded!", Toast.LENGTH_SHORT).show();
+                    }
 
                 } else {
 

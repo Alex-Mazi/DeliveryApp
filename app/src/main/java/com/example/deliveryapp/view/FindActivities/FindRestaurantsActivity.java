@@ -82,7 +82,12 @@ public class FindRestaurantsActivity extends AppCompatActivity {
                             items.clear();
                             items.addAll(fetchedItems);
                             ((StoreAdapter) listView.getAdapter()).notifyDataSetChanged();
-                            Toast.makeText(FindRestaurantsActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+
+                            if (items.size() == 1){
+                                Toast.makeText(FindRestaurantsActivity.this, "1 restaurant found!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(FindRestaurantsActivity.this, items.size() + " restaurants found!", Toast.LENGTH_SHORT).show();
+                            }
 
                         } else {
 
