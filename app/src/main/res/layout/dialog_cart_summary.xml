@@ -6,6 +6,7 @@
     android:padding="16dp"
     android:background="@drawable/rounded_dialog_background">
 
+    <!-- "Items added to cart successfully" Text -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,6 +16,7 @@
         android:textColor="#333333"
         android:layout_marginBottom="16dp"/>
 
+    <!-- "Product List" Text -->
     <TextView
         android:id="@+id/dialog_cart_items_summary"
         android:layout_width="match_parent"
@@ -29,6 +31,7 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
+        <!-- "Cancel" Button -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dialog_cancel_button"
             android:layout_width="0dp"
@@ -40,6 +43,7 @@
             android:textStyle="bold"
             android:layout_marginEnd="8dp"/>
 
+        <!-- "Buy" Button -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dialog_buy_button"
             android:layout_width="0dp"

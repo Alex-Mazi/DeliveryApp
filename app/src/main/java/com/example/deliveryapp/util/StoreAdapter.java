@@ -94,7 +94,6 @@ public class StoreAdapter extends ArrayAdapter<Store> {
 
     }
 
-
     static class ViewHolder {
         ImageView logoImageView;
         TextView nameTextView;
@@ -108,17 +107,8 @@ public class StoreAdapter extends ArrayAdapter<Store> {
         notifyDataSetChanged();
     }
 
-    public Store getSelectedStore() {
-        return selectedStore;
-    }
+    public Store getSelectedStore() { return selectedStore; }
 
-    public boolean isItemSelected() {
-        return selectedStore != null;
-    }
-
-    public void clearSelection() {
-        this.selectedStore = null;
-        notifyDataSetChanged();
-    }
+    public boolean isItemSelected() { return selectedStore != null; }
 
 }

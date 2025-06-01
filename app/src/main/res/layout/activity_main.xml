@@ -11,6 +11,7 @@
     tools:context=".MainActivity"
     tools:visibility="visible">
 
+    <!-- "Continue" Button -->
     <Button
         android:id="@+id/ClientLogin"
         android:layout_width="wrap_content"

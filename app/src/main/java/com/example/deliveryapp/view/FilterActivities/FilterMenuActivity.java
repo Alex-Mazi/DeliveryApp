@@ -34,6 +34,7 @@ public class FilterMenuActivity extends AppCompatActivity {
     }
 
     public void go(String option) {
+
         Intent intent;
         switch (option) {
             case "cuisine":
@@ -48,7 +49,9 @@ public class FilterMenuActivity extends AppCompatActivity {
             default:
                 return;
         }
+
         startActivity(intent);
+
     }
 
 }

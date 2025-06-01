@@ -46,7 +46,6 @@
 
     <!-- "Cuisine" Button -->
     <FrameLayout
-
         android:id="@+id/Cuisine"
         android:layout_width="183dp"
         android:layout_height="175dp"
@@ -87,13 +86,13 @@
                 android:textColor="#42352a"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
     </FrameLayout>
 
     <!-- "Price Range" Button -->
     <FrameLayout
-
         android:id="@+id/Price"
         android:layout_width="183dp"
         android:layout_height="175dp"
@@ -134,13 +133,13 @@
                 android:textColor="#42352a"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
     </FrameLayout>
 
     <!-- "Ratings" Button -->
     <FrameLayout
-
         android:id="@+id/Ratings"
         android:layout_width="183dp"
         android:layout_height="175dp"
@@ -181,6 +180,7 @@
                 android:textColor="#42352a"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
     </FrameLayout>

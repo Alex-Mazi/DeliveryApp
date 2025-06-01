@@ -46,7 +46,6 @@
 
     <!-- "Find Restaurants" Button -->
     <FrameLayout
-
         android:id="@+id/Finder"
         android:layout_width="183dp"
         android:layout_height="175dp"
@@ -87,13 +86,13 @@
                 android:textColor="#42352a"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
     </FrameLayout>
 
     <!-- "Filter Restaurants" Button -->
     <FrameLayout
-
         android:id="@+id/Filter"
         android:layout_width="183dp"
         android:layout_height="175dp"
@@ -134,13 +133,13 @@
                 android:textColor="#42352a"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
     </FrameLayout>
 
     <!-- "Rate Restaurants" Button -->
     <FrameLayout
-
         android:id="@+id/Rater"
         android:layout_width="183dp"
         android:layout_height="175dp"
@@ -181,6 +180,7 @@
                 android:textColor="#42352a"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
     </FrameLayout>

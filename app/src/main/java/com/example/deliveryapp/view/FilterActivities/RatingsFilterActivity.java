@@ -113,7 +113,6 @@ public class RatingsFilterActivity extends AppCompatActivity {
 
                         break;
 
-
                     case ClientThread.MESSAGE_GENERIC_RESPONSE:
 
                         String responseMessage = (msg.obj instanceof String) ? (String) msg.obj : "Generic response received.";
@@ -168,17 +167,12 @@ public class RatingsFilterActivity extends AppCompatActivity {
 
                 if (adapter.isItemSelected()) {
 
-                    String longitude = longitudeInput.getText().toString();
-                    String latitude = latitudeInput.getText().toString();
-
                     Store selectedStore = adapter.getSelectedStore();
 
                     Toast.makeText(this, "Opening restaurant: " + selectedStore.getStoreName(), Toast.LENGTH_LONG).show();
 
                     Intent intent = new Intent(this, PurchaseActivity.class);
                     intent.putExtra("selected_store", selectedStore);
-                    intent.putExtra("latitude",latitude);
-                    intent.putExtra("longitude",longitude);
                     startActivity(intent);
 
                 } else {

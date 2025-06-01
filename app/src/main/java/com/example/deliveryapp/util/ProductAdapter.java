@@ -1,5 +1,10 @@
 package com.example.deliveryapp.util;
 
+/**
+ * @author      Alexandra-Maria Mazi || p3220111
+ * @author      Christina Perifana   || p3220160
+ **/
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;

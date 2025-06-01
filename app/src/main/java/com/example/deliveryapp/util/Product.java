@@ -41,21 +41,13 @@ public class Product implements Serializable {
         return ProductName;
     }
 
-    public void setProductName(String ProductName) {
-        this.ProductName = ProductName;
-    }
+    public void setProductName(String ProductName) { this.ProductName = ProductName; }
 
-    public String getProductType() {
-        return ProductType;
-    }
+    public String getProductType() { return ProductType; }
 
-    public void setProductType(String ProductType) {
-        this.ProductType = ProductType;
-    }
+    public void setProductType(String ProductType) { this.ProductType = ProductType; }
 
-    public int getAvailableAmount() {
-        return AvailableAmount;
-    }
+    public int getAvailableAmount() { return AvailableAmount; }
 
     public void setAvailableAmount(int AvailableAmount) {
         this.AvailableAmount = AvailableAmount;
@@ -68,9 +60,7 @@ public class Product implements Serializable {
         return Price;
     }
 
-    public void setPrice(double Price) {
-        this.Price = Price;
-    }
+    public void setPrice(double Price) { this.Price = Price; }
 
     public void setAvailability(boolean availability) { this.availability=availability;}
 

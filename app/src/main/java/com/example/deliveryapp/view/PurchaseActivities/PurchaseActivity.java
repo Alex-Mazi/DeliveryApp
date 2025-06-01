@@ -40,8 +40,6 @@ import java.util.Map;
 public class PurchaseActivity extends AppCompatActivity {
 
     private Store receivedStore;
-    private String latitude;
-    private String longitude;
     private TextView storeNameTextView;
     Handler handler;
     List<Product> items;
@@ -82,7 +80,6 @@ public class PurchaseActivity extends AppCompatActivity {
                             Toast.makeText(PurchaseActivity.this, "Operation successful!", Toast.LENGTH_SHORT).show();
 
                         }
-
 
                         for (Product p : items) {
                             p.setQuantity(0);
@@ -125,8 +122,6 @@ public class PurchaseActivity extends AppCompatActivity {
         if (getIntent().hasExtra("selected_store")) {
 
             receivedStore = getIntent().getParcelableExtra("selected_store", Store.class);
-            longitude = getIntent().getParcelableExtra("longitude", String.class);
-            latitude = getIntent().getParcelableExtra("latitude", String.class);
 
             if (receivedStore != null) {
 
@@ -183,6 +178,7 @@ public class PurchaseActivity extends AppCompatActivity {
                             cartSummary.append("- ")
                                     .append(entry.getKey())
                                     .append("\n");
+
                         }
 
                         cartSummary.append(String.format("\nTotal: $%.2f", totalCost));
@@ -201,9 +197,7 @@ public class PurchaseActivity extends AppCompatActivity {
                         AlertDialog alertDialog = dialogBuilder.create();
                         alertDialog.setCancelable(false);
 
-                        cancelButton.setOnClickListener(y -> {
-                            alertDialog.dismiss();
-                        });
+                        cancelButton.setOnClickListener(y -> alertDialog.dismiss());
 
                         final String finalStoreName = receivedStore.getStoreName();
                         final double finalStoreLatitude = receivedStore.getLatitude();
@@ -223,15 +217,7 @@ public class PurchaseActivity extends AppCompatActivity {
 
                             Toast.makeText(PurchaseActivity.this, "Processing purchase...", Toast.LENGTH_SHORT).show();
 
-                            new Thread(new ClientThread(
-                                    handler,
-                                    IP_ADDRESS,
-                                    5000,
-                                    null,
-                                    null,
-                                    purchaseDetails,
-                                    "purchase_product"
-                            )).start();
+                            new Thread(new ClientThread(handler, IP_ADDRESS, 5000, null, null, purchaseDetails, "purchase_product")).start();
 
                         });
 

@@ -153,15 +153,21 @@ public class RateRestaurantsActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
 
         selectButton.setOnClickListener(v -> {
+
             if (!items.isEmpty()) {
+
                 if (adapter.isItemSelected()) {
                     showRatingPopup();
                 } else {
                     Toast.makeText(this, "Please select a restaurant from the list.", Toast.LENGTH_SHORT).show();
                 }
+
             } else {
+
                 Toast.makeText(this, "No restaurants available to select.", Toast.LENGTH_SHORT).show();
+
             }
+
         });
 
     }

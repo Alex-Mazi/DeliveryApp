@@ -108,12 +108,13 @@ public class ClientThread implements Runnable {
                         outObj.flush();
                         receivedResponse = inObj.readObject();
 
-
                         handleGenericResponse(receivedResponse);
 
                     } else {
+
                         Log.e(TAG, "Invalid preference type for purchase_product action. Expected PurchaseDetails.");
                         sendErrorMessage("Invalid purchase data provided.");
+
                     }
 
                     break;
@@ -170,7 +171,7 @@ public class ClientThread implements Runnable {
             ActionWrapper w = (ActionWrapper) receivedObject;
 
             Message message;
-            Object resObj = null;
+            Object resObj;
 
             if ("final_results".equalsIgnoreCase(w.getAction())) {
 
@@ -183,7 +184,7 @@ public class ClientThread implements Runnable {
                         List<Store> finalResults = (List<Store>) resObj;
                         message = Message.obtain();
 
-                        if (finalResults != null && !finalResults.isEmpty()) {
+                        if (!finalResults.isEmpty()) {
 
                             message.what = MESSAGE_SUCCESS;
                             message.obj = finalResults;

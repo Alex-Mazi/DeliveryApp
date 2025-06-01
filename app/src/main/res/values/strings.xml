@@ -20,7 +20,7 @@
     <string name="price_range_options">Price Range Options</string>
     <string name="select">SELECT</string>
     <string name="back">BACK</string>
-    <string name="cuisine_options">Cuisine Options</string>
+    <string name="cuisine_options">Cuisine</string>
     <string name="restaurants">RESTAURANTS</string>
     <string name="set_your_location_to_see_available_restaurants_near_you">Set your location to see available restaurants near you</string>
     <string name="rating">RATING</string>

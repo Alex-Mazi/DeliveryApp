@@ -7,31 +7,33 @@
     android:gravity="center_vertical" >
 
     <LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:orientation="vertical"
-    android:gravity="center_vertical" >
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_vertical" >
 
+        <!-- "Product Name" Text -->
         <TextView
-        android:id="@+id/productName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/product_name"
-        android:textColor="#0F0000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+            android:id="@+id/productName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/product_name"
+            android:textColor="#0F0000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/productPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/price_0_00"
-        android:textColor="#555555"
-        android:textSize="14sp"
-        android:layout_marginTop="2dp" />
+        <!-- "Product Price" Text -->
+        <TextView
+            android:id="@+id/productPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/price_0_00"
+            android:textColor="#555555"
+            android:textSize="14sp"
+            android:layout_marginTop="2dp" />
 
-</LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -40,6 +42,7 @@
         android:gravity="center_vertical"
         android:layout_marginStart="16dp">
 
+        <!-- "-" Button -->
         <ImageButton
             android:id="@+id/minusButton"
             android:layout_width="32dp"
@@ -48,6 +51,7 @@
             android:src="@drawable/ic_minus"
             android:contentDescription="@string/minus_button" />
 
+        <!-- "Quantity of product" Text -->
         <TextView
             android:id="@+id/quantityTextView"
             android:layout_width="wrap_content"
@@ -59,6 +63,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp" />
 
+        <!-- "+" Button -->
         <ImageButton
             android:id="@+id/plusButton"
             android:layout_width="32dp"

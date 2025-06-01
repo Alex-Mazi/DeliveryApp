@@ -46,61 +46,33 @@ public class Store implements Serializable {
         this.Products = Products;
     }
 
-    public String getStoreName() {
-        return StoreName;
-    }
+    public String getStoreName() { return StoreName; }
 
-    public void setStoreName(String StoreName) {
-        this.StoreName = StoreName;
-    }
+    public void setStoreName(String StoreName) { this.StoreName = StoreName; }
 
-    public double getLatitude() {
-        return Latitude;
-    }
+    public double getLatitude() { return Latitude; }
 
-    public void setLatitude(double Latitude) {
-        this.Latitude = Latitude;
-    }
+    public void setLatitude(double Latitude) { this.Latitude = Latitude; }
 
-    public double getLongitude() {
-        return Longitude;
-    }
+    public double getLongitude() { return Longitude; }
 
-    public void setLongitude(double Longitude) {
-        this.Longitude = Longitude;
-    }
+    public void setLongitude(double Longitude) { this.Longitude = Longitude; }
 
-    public String getFoodCategory() {
-        return FoodCategory;
-    }
+    public String getFoodCategory() { return FoodCategory; }
 
-    public void setFoodCategory(String FoodCategory) {
-        this.FoodCategory = FoodCategory;
-    }
+    public void setFoodCategory(String FoodCategory) { this.FoodCategory = FoodCategory; }
 
-    public double getStars() {
-        return Stars;
-    }
+    public double getStars() { return Stars; }
 
-    public void setStars(double Stars) {
-        this.Stars = Stars;
-    }
+    public void setStars(double Stars) { this.Stars = Stars; }
 
-    public int getNoOfVotes() {
-        return NoOfVotes;
-    }
+    public int getNoOfVotes() { return NoOfVotes; }
 
-    public void setNoOfVotes(int NoOfVotes) {
-        this.NoOfVotes = NoOfVotes;
-    }
+    public void setNoOfVotes(int NoOfVotes) { this.NoOfVotes = NoOfVotes; }
 
-    public List<Product> getProducts() {
-        return Products;
-    }
+    public List<Product> getProducts() { return Products; }
 
-    public void setProducts(List<Product> Products) {
-        this.Products = Products;
-    }
+    public void setProducts(List<Product> Products) { this.Products = Products; }
 
     public String getStorePriceRange(){
 
@@ -109,13 +81,11 @@ public class Store implements Serializable {
         } else {
 
             double count = 0;
-
             for (Product p : this.Products){
                 count+=p.getPrice();
             }
 
             double average = count / this.Products.size();
-
             if (average <= 5){
                 return "$";
             } else if (average <= 15){

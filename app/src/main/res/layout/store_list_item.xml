@@ -7,6 +7,7 @@
     android:padding="8dp"
     android:gravity="center_vertical">
 
+    <!-- "Store Logo" Image -->
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/storeLogo"
         android:layout_width="64dp"
@@ -24,6 +25,7 @@
         android:orientation="vertical"
         android:gravity="center_vertical">
 
+        <!-- "Store Name" Text -->
         <TextView
             android:id="@+id/storeName"
             android:layout_width="match_parent"
@@ -35,6 +37,7 @@
             android:singleLine="true"
             android:ellipsize="end" />
 
+        <!-- "Store Description" Text -->
         <TextView
             android:id="@+id/storeDescription"
             android:layout_width="match_parent"
@@ -54,6 +57,7 @@
             android:layout_marginTop="2dp"
             android:gravity="center">
 
+            <!-- "Store Average Rating" Text -->
             <TextView
                 android:id="@+id/storeAvgRating"
                 android:layout_width="wrap_content"
@@ -62,6 +66,7 @@
                 android:textColor="#555555"
                 android:textSize="12sp" />
 
+            <!-- "Store Price Range" Text -->
             <TextView
                 android:id="@+id/storePriceRange"
                 android:layout_width="wrap_content"

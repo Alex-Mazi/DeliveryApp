@@ -44,9 +44,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/success" />
 
-
-    <!-- "Back" Button -->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/whiteBoxContainer"
         android:layout_width="316dp"
@@ -63,6 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.502">
 
+        <!-- "The store got your order and will deliver your food in _ minutes!" Text -->
         <TextView
             android:id="@+id/deliveryMessageCombined"
             android:layout_width="wrap_content"
@@ -78,6 +76,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="The store got your order and will deliver your food in 30 minutes!" />
 
+        <!-- "Bon Appetit!" Text -->
         <TextView
             android:id="@+id/bonAppetit"
             android:layout_width="wrap_content"
@@ -92,6 +91,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/deliveryMessageCombined" />
 
+        <!-- "Your receipt has been sent to your email" Text -->
         <TextView
             android:id="@+id/receiptSent"
             android:layout_width="250dp"
@@ -108,8 +108,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bonAppetit"
             app:layout_constraintVertical_bias="0.53" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- "Back" Button -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/back"
         android:layout_width="135dp"

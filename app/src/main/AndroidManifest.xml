@@ -13,27 +13,23 @@
         android:theme="@style/Theme.DeliveryApp">
 
         <activity
-            android:name=".view.PurchaseActivities.DeliveryActivity"
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.DeliveryApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".view.ClientMenuActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
         <activity
-            android:name=".view.PurchaseActivities.PurchaseActivity"
-            android:exported="false"
-            android:theme="@style/Theme.DeliveryApp" />
-
-        <activity
-            android:name=".view.FilterActivities.RatingsFilterActivity"
-            android:exported="false"
-            android:theme="@style/Theme.DeliveryApp" />
-
-        <activity
-            android:name=".view.FilterActivities.PriceFilterActivity"
-            android:exported="false"
-            android:theme="@style/Theme.DeliveryApp" />
-
-        <activity
-            android:name=".view.FilterActivities.CuisineFilterActivity"
+            android:name=".view.FindActivities.FindRestaurantsActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
@@ -48,25 +44,29 @@
             android:theme="@style/Theme.DeliveryApp" />
 
         <activity
-            android:name=".view.FindActivities.FindRestaurantsActivity"
+            android:name=".view.FilterActivities.CuisineFilterActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
         <activity
-            android:name=".view.ClientMenuActivity"
+            android:name=".view.FilterActivities.PriceFilterActivity"
             android:exported="false"
             android:theme="@style/Theme.DeliveryApp" />
 
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.DeliveryApp">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name=".view.FilterActivities.RatingsFilterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DeliveryApp" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity
+            android:name=".view.PurchaseActivities.PurchaseActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DeliveryApp" />
+
+        <activity
+            android:name=".view.PurchaseActivities.DeliveryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DeliveryApp" />
 
         <meta-data
             android:name="preloaded_fonts"
