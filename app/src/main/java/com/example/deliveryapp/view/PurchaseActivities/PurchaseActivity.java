@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PurchaseActivity extends AppCompatActivity {
 
@@ -105,8 +107,20 @@ public class PurchaseActivity extends AppCompatActivity {
                     case ClientThread.MESSAGE_GENERIC_RESPONSE:
 
                         if (((String) msg.obj).startsWith("All items")){
+
                             Intent i = new Intent(PurchaseActivity.this, DeliveryActivity.class);
                             startActivity(i);
+
+                        } else if (((String) msg.obj).startsWith("Some issues occurred")){
+
+                            Pattern pattern = Pattern.compile("Failed to purchase .*?\\. (Only \\d+ available\\.)");
+                            Matcher matcher = pattern.matcher((String) msg.obj);
+
+                            while (matcher.find()) {
+                                String toastMessage = matcher.group(pattern.flags());
+                                Toast.makeText(PurchaseActivity.this, toastMessage, Toast.LENGTH_LONG).show();
+                            }
+
                         } else {
                             Toast.makeText(PurchaseActivity.this, (String) msg.obj, Toast.LENGTH_LONG).show();
                         }
