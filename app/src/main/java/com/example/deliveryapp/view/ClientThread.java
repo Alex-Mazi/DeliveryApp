@@ -75,9 +75,11 @@ public class ClientThread implements Runnable {
 
                     break;
 
+                case "search_food_preference":
+
                 case "search_price_range":
 
-                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + (String) preference, action, jobID);
+                    requestWrapper = new ActionWrapper(longitude + "_" + latitude + "_" + preference, action, jobID);
                     outObj.writeObject(requestWrapper);
                     outObj.flush();
 
@@ -113,6 +115,8 @@ public class ClientThread implements Runnable {
                         Log.e(TAG, "Invalid preference type for purchase_product action. Expected PurchaseDetails.");
                         sendErrorMessage("Invalid purchase data provided.");
                     }
+
+                    break;
 
                 case "rate_store":
 
