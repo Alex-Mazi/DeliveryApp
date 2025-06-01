@@ -96,19 +96,8 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             holder.minusButton.setBackgroundTintList(ColorStateList.valueOf(COLOR_ACTIVE_BUTTON_BLUE));
             holder.plusButton.setBackgroundTintList(ColorStateList.valueOf(COLOR_ACTIVE_BUTTON_BLUE));
 
-            if (product.getQuantity() == 0) {
-
-                holder.minusButton.setEnabled(false);
-                holder.plusButton.setEnabled(true);
-                convertView.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
-
-            } else {
-
-                holder.minusButton.setEnabled(true);
-                holder.plusButton.setEnabled(false);
-                convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.box_stroke_color));
-
-            }
+            holder.minusButton.setEnabled(product.getQuantity() != 0);
+            holder.plusButton.setEnabled(true);
 
         }
 
@@ -119,7 +108,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
                 int currentQuantity = product.getQuantity();
 
                 if (currentQuantity > 0) {
-                    product.setQuantity(0);
+                    product.setQuantity(currentQuantity - 1);
                     notifyDataSetChanged();
                 }
 
@@ -129,10 +118,9 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 
                 int currentQuantity = product.getQuantity();
 
-                if (currentQuantity == 0) {
-                    product.setQuantity(1);
-                    notifyDataSetChanged();
-                }
+                product.setQuantity(currentQuantity + 1);
+
+                notifyDataSetChanged();
 
             });
 
