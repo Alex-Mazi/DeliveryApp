@@ -148,11 +148,14 @@ public class PurchaseActivity extends AppCompatActivity {
                     items.clear();
 
                     for (Product p : productsFromStore) {
+
                         p.setQuantity(0);
+
                     }
 
                     items.addAll(productsFromStore);
                     adapter.notifyDataSetChanged();
+
                     Toast.makeText(this, productsFromStore.size() + " products loaded!", Toast.LENGTH_SHORT).show();
 
                 } else {

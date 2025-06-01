@@ -7,6 +7,8 @@ package com.example.deliveryapp.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,12 @@ import com.example.deliveryapp.R;
 import java.util.List;
 
 public class ProductAdapter extends ArrayAdapter<Product> {
+
+    private static final int COLOR_GREY_TEXT = Color.parseColor("#A0A0A0");
+    private static final int COLOR_DISABLED_BUTTON_BLUE = Color.parseColor("#ADD8E6");
+    private static final int COLOR_DEFAULT_PRODUCT_NAME = Color.parseColor("#0F0000");
+    private static final int COLOR_DEFAULT_PRODUCT_PRICE = Color.parseColor("#555555");
+    private static final int COLOR_ACTIVE_BUTTON_BLUE = Color.parseColor("#87CEEB");
 
     public ProductAdapter(Context context, List<Product> products) {
         super(context, 0, products);
@@ -58,41 +66,80 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         holder.productPriceTextView.setText(String.format("Price: $%.2f", product.getPrice()));
         holder.quantityTextView.setText(String.valueOf(product.getQuantity()));
 
-        holder.minusButton.setOnClickListener(v -> {
-
-            int currentQuantity = product.getQuantity();
-
-            if (currentQuantity > 0) {
-
-                product.setQuantity(0);
-                notifyDataSetChanged();
-
-            }
-
-        });
-
-        holder.plusButton.setOnClickListener(v -> {
-
-            int currentQuantity = product.getQuantity();
-
-            if (currentQuantity == 0) {
-                product.setQuantity(1);
-                notifyDataSetChanged();
-            }
-
-        });
-
-        if (product.getQuantity() == 0) {
+        if (!product.isAvailable()) {
 
             holder.minusButton.setEnabled(false);
-            holder.plusButton.setEnabled(true);
+            holder.plusButton.setEnabled(false);
+            convertView.setClickable(false);
+            convertView.setFocusable(false);
+
+            holder.productNameTextView.setTextColor(COLOR_GREY_TEXT);
+            holder.productPriceTextView.setTextColor(COLOR_GREY_TEXT);
+            holder.quantityTextView.setTextColor(COLOR_GREY_TEXT);
+
             convertView.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
+
+            holder.minusButton.setBackgroundTintList(ColorStateList.valueOf(COLOR_DISABLED_BUTTON_BLUE));
+            holder.plusButton.setBackgroundTintList(ColorStateList.valueOf(COLOR_DISABLED_BUTTON_BLUE));
 
         } else {
 
-            holder.minusButton.setEnabled(true);
-            holder.plusButton.setEnabled(false);
-            convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.box_stroke_color));
+            convertView.setClickable(true);
+            convertView.setFocusable(true);
+
+            holder.productNameTextView.setTextColor(COLOR_DEFAULT_PRODUCT_NAME);
+            holder.productPriceTextView.setTextColor(COLOR_DEFAULT_PRODUCT_PRICE);
+            holder.quantityTextView.setTextColor(Color.BLACK);
+
+            convertView.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
+
+            holder.minusButton.setBackgroundTintList(ColorStateList.valueOf(COLOR_ACTIVE_BUTTON_BLUE));
+            holder.plusButton.setBackgroundTintList(ColorStateList.valueOf(COLOR_ACTIVE_BUTTON_BLUE));
+
+            if (product.getQuantity() == 0) {
+
+                holder.minusButton.setEnabled(false);
+                holder.plusButton.setEnabled(true);
+                convertView.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
+
+            } else {
+
+                holder.minusButton.setEnabled(true);
+                holder.plusButton.setEnabled(false);
+                convertView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.box_stroke_color));
+
+            }
+
+        }
+
+        if (product.isAvailable()) {
+
+            holder.minusButton.setOnClickListener(v -> {
+
+                int currentQuantity = product.getQuantity();
+
+                if (currentQuantity > 0) {
+                    product.setQuantity(0);
+                    notifyDataSetChanged();
+                }
+
+            });
+
+            holder.plusButton.setOnClickListener(v -> {
+
+                int currentQuantity = product.getQuantity();
+
+                if (currentQuantity == 0) {
+                    product.setQuantity(1);
+                    notifyDataSetChanged();
+                }
+
+            });
+
+        } else {
+
+            holder.minusButton.setOnClickListener(null);
+            holder.plusButton.setOnClickListener(null);
 
         }
 
